@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ordo — La conformité, sans la complexité.</title>
+<meta name="description" content="Ordo génère vos documents RGPD en 10 minutes. Mentions légales, politique de confidentialité, registre de traitement. Pensé pour les indépendants.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{--indigo:#2D3A8C;--indigo-deep:#1E2A6E;--indigo-subtle:#E8EAF6;--indigo-glow:#6C7BF0;--white:#FFF;--cream:#FAFAF8;--warm-gray:#F5F4F0;--mid-gray:#8E8E93;--dark-gray:#6E6E73;--navy:#12152B;--text:#1d1d1f;--fd:'Outfit',sans-serif;--fb:'DM Sans',sans-serif}*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}::selection{background:var(--indigo);color:#fff}body{font-family:var(--fb);color:var(--text);background:var(--cream);-webkit-font-smoothing:antialiased}.s{padding:120px 24px}.s-dark{background:var(--navy);color:#fff}.s-warm{background:var(--warm-gray)}.s-cream{background:var(--cream)}.s-white{background:var(--white)}.c{max-width:720px;margin:0 auto}.cw{max-width:960px;margin:0 auto}.tc{text-align:center}
+.td{font-family:var(--fd);font-weight:600;font-size:clamp(2.8rem,7vw,5rem);letter-spacing:-.03em;line-height:1.1;color:var(--text)}.td-l{color:#fff}.th{font-family:var(--fd);font-weight:600;font-size:clamp(2rem,4.5vw,3rem);letter-spacing:-.025em;line-height:1.15;color:var(--text)}.th-l{color:#F5F5F7}.ts{font-family:var(--fd);font-weight:600;font-size:1.25rem;letter-spacing:-.015em;line-height:1.3;color:var(--text)}.tb{font-family:var(--fb);font-weight:400;font-size:1.1rem;line-height:1.7;color:var(--dark-gray)}.tb-l{color:#A0A0A6}.tl{font-family:var(--fb);font-size:.75rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--indigo)}.tl-l{color:var(--indigo-glow)}.tsm{font-family:var(--fb);font-size:.82rem;color:var(--mid-gray);line-height:1.5}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,250,248,.9);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.05)}.nav-logo{font-family:var(--fd);font-size:1.5rem;font-weight:700;letter-spacing:-.03em;color:var(--indigo);text-decoration:none}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--fb);font-size:.88rem;font-weight:500;letter-spacing:.01em;border-radius:980px;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);text-decoration:none;border:none}.bp{padding:14px 32px;background:var(--indigo);color:#fff}.bp:hover{background:var(--indigo-deep);transform:scale(1.02)}.bs{padding:9px 22px;font-size:.8rem;background:var(--indigo);color:#fff}.bs:hover{background:var(--indigo-deep)}.bw{padding:14px 32px;background:#fff;color:var(--indigo);font-weight:600}.bw:hover{background:#F5F5F7;transform:scale(1.02)}
+.fr{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}.ei{font-family:var(--fb);font-size:.92rem;padding:14px 20px;border:1px solid #d2d2d7;border-radius:980px;background:#fff;color:var(--text);outline:none;width:300px;transition:border-color .3s}.ei:focus{border-color:var(--indigo)}.ei::placeholder{color:#b4b4b9}.eid{border:1px solid #2E3254;background:rgba(255,255,255,.05);color:#F5F5F7}.eid:focus{border-color:var(--indigo-glow)}.eid::placeholder{color:#4A4E6A}
+.fs{display:flex;align-items:center;gap:10px;justify-content:center;font-family:var(--fb);font-size:.95rem;font-weight:500}.fsl{color:var(--indigo)}.fsd{color:#B4B8E8}.fe{font-family:var(--fb);font-size:.82rem;color:#E74C3C;margin-top:8px;text-align:center}
+.badge{display:inline-block;padding:8px 18px;border-radius:980px;background:var(--indigo-subtle);color:var(--indigo);font-family:var(--fb);font-size:.78rem;font-weight:600;letter-spacing:.03em}
+.sr{display:flex;justify-content:space-between;gap:40px;text-align:center}.sv{font-family:var(--fd);font-size:2.8rem;font-weight:700;letter-spacing:-.03em;color:var(--indigo)}.sl{font-family:var(--fb);font-size:.82rem;color:var(--mid-gray);margin-top:8px;max-width:180px;margin-left:auto;margin-right:auto}
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:64px}.sn{font-family:var(--fd);font-size:3.5rem;font-weight:700;color:#2E3254;line-height:1;letter-spacing:-.03em}.st{font-family:var(--fd);font-size:1.35rem;font-weight:600;margin-top:16px;letter-spacing:-.015em}.sd{font-family:var(--fb);font-size:.95rem;color:var(--dark-gray);margin-top:12px;line-height:1.65}
+.pl{display:flex;flex-direction:column;gap:24px;margin-top:40px}.pi{font-family:var(--fb);font-size:1.05rem;color:var(--dark-gray);line-height:1.7;padding-left:24px;border-left:2px solid var(--indigo)}
+.dl{margin-top:48px}.di{padding:24px 0;border-bottom:1px solid #e8e8ed;display:flex;justify-content:space-between;align-items:center;transition:opacity .2s}.di:hover{opacity:.6}.dn{font-family:var(--fd);font-size:1.05rem;font-weight:500;color:var(--text)}.dd{font-family:var(--fb);font-size:.82rem;color:var(--mid-gray)}
+.pr{display:flex;justify-content:center;gap:24px;margin-top:48px}.pc{text-align:center;padding:44px 36px;border-radius:20px;background:#fff;border:1px solid #e8e8ed;min-width:210px;flex:1;max-width:280px;transition:all .3s cubic-bezier(.16,1,.3,1)}.pc:hover{border-color:var(--indigo);transform:translateY(-4px)}.pf{background:var(--indigo);border-color:var(--indigo);color:#fff;transform:scale(1.04)}.pf:hover{transform:scale(1.06) translateY(-4px)}.pp{font-family:var(--fb);font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mid-gray);margin-bottom:20px}.pf .pp{color:var(--indigo-glow)}.pprice{font-family:var(--fd);font-size:2.8rem;font-weight:700;letter-spacing:-.03em}.pf .pprice{color:#fff}.psuf{font-size:1rem;font-weight:400;opacity:.6}.pdesc{font-family:var(--fb);font-size:.85rem;color:var(--mid-gray);margin-top:8px}.pf .pdesc{color:#B4B8E8}
+.rg{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;text-align:center}.ri{width:48px;height:48px;border-radius:12px;background:var(--indigo-subtle);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.ft{padding:32px 40px;border-top:1px solid #e8e8ed;display:flex;justify-content:space-between;align-items:center;background:var(--cream)}.fl{display:flex;gap:28px}.fla{font-family:var(--fb);font-size:.78rem;color:var(--mid-gray);text-decoration:none;transition:color .2s}.fla:hover{color:var(--indigo)}
+.r{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}.r.v{opacity:1;transform:translateY(0)}.rd1{transition-delay:.12s}.rd2{transition-delay:.24s}.rd3{transition-delay:.36s}.rd4{transition-delay:.48s}
+@media(max-width:768px){.s{padding:80px 20px}.nav{padding:0 20px}.fr{flex-direction:column}.ei,.eid{width:100%}.sr{flex-direction:column;gap:36px}.sg{grid-template-columns:1fr;gap:40px}.pr{flex-direction:column;align-items:center;gap:16px}.pf{transform:scale(1)}.rg{grid-template-columns:1fr;gap:36px}.ft{flex-direction:column;gap:16px;text-align:center}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="#" class="nav-logo">Ordo.</a>
+  <a href="#acces" class="btn bs">Accès anticipé</a>
+</nav>
+
+<section class="s s-cream" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding-top:140px;padding-bottom:100px">
+  <div class="c tc">
+    <div class="badge r">Bientôt disponible</div>
+    <h1 class="td r rd1" style="margin-top:32px">La conformité,<br>sans la complexité.</h1>
+    <p class="tb r rd2" style="max-width:480px;margin:28px auto 0;font-size:1.15rem">Ordo génère vos documents RGPD en 10&nbsp;minutes. Pensé pour les indépendants qui ont mieux à faire.</p>
+    <div class="r rd3" style="margin-top:40px">
+      <div id="hero-form">
+        <form class="fr" onsubmit="sub(event,'hero')">
+          <input class="ei" type="email" id="hero-email" placeholder="Votre email professionnel" required>
+          <button class="btn bp" type="submit" id="hero-btn">Rejoindre</button>
+        </form>
+        <div id="hero-error" class="fe" style="display:none"></div>
+      </div>
+      <div id="hero-success" class="fs fsl" style="display:none">
+        <svg width="22" height="22" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#2D3A8C"/><path d="M6 10.5l2.5 2.5 5.5-5.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Vous êtes sur la liste. On vous tient informé.
+      </div>
+    </div>
+    <p class="tsm r rd4" style="margin-top:16px">Gratuit · Sans engagement · Lancement prévu T2 2026</p>
+  </div>
+</section>
+
+<section class="s-white" style="padding:56px 24px;border-top:1px solid #e8e8ed;border-bottom:1px solid #e8e8ed">
+  <div class="cw">
+    <div class="sr">
+      <div class="r"><div class="sv">4.5M</div><div class="sl">d'indépendants concernés en France</div></div>
+      <div class="r rd1"><div class="sv">87%</div><div class="sl">ne sont pas conformes au RGPD</div></div>
+      <div class="r rd2"><div class="sv">20 000€</div><div class="sl">d'amende en procédure simplifiée</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="s s-cream">
+  <div class="c">
+    <p class="tl r">Le constat</p>
+    <h2 class="th r rd1" style="margin-top:20px">Le RGPD est obligatoire.<br>Il ne devrait pas être un obstacle.</h2>
+    <div class="pl">
+      <p class="pi r rd1">Les solutions existantes coûtent entre 95 et 200€ par mois. Elles sont pensées pour des entreprises de 50 personnes, pas pour vous.</p>
+      <p class="pi r rd2">Le jargon juridique décourage. Registre de traitement, DPIA, DPA, base légale… Personne ne devrait avoir besoin d'un avocat pour un site vitrine.</p>
+      <p class="pi r rd3">Pourtant la CNIL contrôle, et les amendes sont réelles. La question n'est pas si vous devez être conforme, mais quand.</p>
+    </div>
+  </div>
+</section>
+
+<section class="s s-dark">
+  <div class="cw">
+    <p class="tl-l r">Comment ça marche</p>
+    <h2 class="th-l r rd1" style="margin-top:20px">Trois étapes.<br>Dix minutes.<br>C'est tout.</h2>
+    <div class="sg">
+      <div class="r rd1"><div class="sn">01</div><h3 class="st" style="color:#fff">Répondez</h3><p class="sd" style="color:#8A8EA8">Un questionnaire simple adapté à votre métier. Pas de jargon, pas de piège.</p></div>
+      <div class="r rd2"><div class="sn">02</div><h3 class="st" style="color:#fff">Recevez</h3><p class="sd" style="color:#8A8EA8">Vos documents juridiques sont générés. Mentions légales, politique de confidentialité, registre de traitement.</p></div>
+      <div class="r rd3"><div class="sn">03</div><h3 class="st" style="color:#fff">Respirez</h3><p class="sd" style="color:#8A8EA8">Intégrez-les en un clic. Ordo veille pour vous et vous alerte si quelque chose change.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="s s-cream">
+  <div class="c">
+    <p class="tl r">Ce que vous obtenez</p>
+    <h2 class="th r rd1" style="margin-top:20px">Tout ce qu'il faut.<br>Rien de plus.</h2>
+    <div class="dl">
+      <div class="di r"><span class="dn">Mentions légales</span><span class="dd">Conformes, personnalisées</span></div>
+      <div class="di r rd1"><span class="dn">Politique de confidentialité</span><span class="dd">Prête à publier</span></div>
+      <div class="di r rd1"><span class="dn">Registre de traitement</span><span class="dd">Pré-rempli selon votre activité</span></div>
+      <div class="di r rd2"><span class="dn">Bandeau cookies</span><span class="dd">Script à intégrer en un clic</span></div>
+      <div class="di r rd2"><span class="dn">Contrats sous-traitants</span><span class="dd">DPA adaptés à vos outils</span></div>
+      <div class="di r rd3"><span class="dn">Alertes réglementaires</span><span class="dd">Mises à jour automatiques</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="s s-warm">
+  <div class="cw tc">
+    <p class="tl r">Tarifs</p>
+    <h2 class="th r rd1" style="margin-top:20px">Un prix juste.</h2>
+    <p class="tb r rd2" style="max-width:400px;margin:16px auto 0">Moins qu'un café par semaine.<br>Incomparablement moins qu'une amende.</p>
+    <div class="pr r rd3">
+      <div class="pc"><div class="pp">Gratuit</div><div class="pprice">0€</div><div class="pdesc">Diagnostic complet</div></div>
+      <div class="pc pf"><div class="pp">Essentiel</div><div class="pprice">9€<span class="psuf">/mois</span></div><div class="pdesc">Tous vos documents</div></div>
+      <div class="pc"><div class="pp">Pro</div><div class="pprice">19€<span class="psuf">/mois</span></div><div class="pdesc">Conformité intégrale</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="s s-cream">
+  <div class="cw">
+    <div class="rg">
+      <div class="r"><div class="ri"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><path d="M16 8l1.5 4.5H22l-3.5 2.8 1.2 4.2L16 17l-3.7 2.5 1.2-4.2L10 12.5h4.5z" fill="#2D3A8C"/></svg></div><h3 class="ts">Validé par des avocats</h3><p class="tb" style="font-size:.92rem;margin-top:8px">Documents rédigés et vérifiés par des juristes spécialisés en droit du numérique.</p></div>
+      <div class="r rd1"><div class="ri"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="7" stroke="#2D3A8C" stroke-width="2" fill="none"/><path d="M16 12v5l3 2" stroke="#2D3A8C" stroke-width="2" stroke-linecap="round"/></svg></div><h3 class="ts">10 minutes chrono</h3><p class="tb" style="font-size:.92rem;margin-top:8px">Du questionnaire à vos documents finaux. Tout est conçu pour aller vite.</p></div>
+      <div class="r rd2"><div class="ri"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><path d="M12 16l3 3 5-6" stroke="#2D3A8C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3 class="ts">Toujours à jour</h3><p class="tb" style="font-size:.92rem;margin-top:8px">La réglementation évolue, vos documents aussi. Automatiquement.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="acces" class="s s-dark" style="padding:140px 24px">
+  <div class="c tc">
+    <p class="tl-l r" style="margin-bottom:24px">Accès anticipé</p>
+    <h2 class="th-l r rd1" style="font-size:clamp(2.2rem,5vw,3.2rem)">Soyez parmi<br>les premiers.</h2>
+    <p class="tb-l r rd2" style="max-width:420px;margin:24px auto 0;font-size:1.05rem">Inscrivez-vous pour obtenir un accès prioritaire et un tarif préférentiel à vie.</p>
+    <div class="r rd3" style="margin-top:40px">
+      <div id="bottom-form">
+        <form class="fr" onsubmit="sub(event,'bottom')">
+          <input class="ei eid" type="email" id="bottom-email" placeholder="Votre email professionnel" required>
+          <button class="btn bw" type="submit" id="bottom-btn">Rejoindre</button>
+        </form>
+        <div id="bottom-error" class="fe" style="display:none"></div>
+      </div>
+      <div id="bottom-success" class="fs fsd" style="display:none">
+        <svg width="22" height="22" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#6C7BF0"/><path d="M6 10.5l2.5 2.5 5.5-5.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        C'est noté. Vous serez parmi les premiers informés.
+      </div>
+    </div>
+    <p class="r rd4" style="font-family:var(--fb);font-size:.75rem;color:#4A4E6A;margin-top:16px">Pas de spam. Un seul email au lancement.</p>
+  </div>
+</section>
+
+<footer class="ft">
+  <div>
+    <a href="#" class="nav-logo" style="font-size:1.15rem">Ordo.</a>
+    <p class="tsm" style="font-size:.72rem;margin-top:4px">La conformité, sans la complexité.</p>
+  </div>
+  <div class="fl">
+    <a href="#" class="fla">Mentions légales</a>
+    <a href="#" class="fla">Confidentialité</a>
+    <a href="#" class="fla">Contact</a>
+  </div>
+</footer>
+
+<script>
+const o=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&e.target.classList.add('v')})},{threshold:.12});
+document.querySelectorAll('.r').forEach(e=>o.observe(e));
+
+async function sub(e,id){
+  e.preventDefault();
+  const ei=document.getElementById(id+'-email'),
+        fc=document.getElementById(id+'-form'),
+        sc=document.getElementById(id+'-success'),
+        ec=document.getElementById(id+'-error'),
+        bt=document.getElementById(id+'-btn'),
+        em=ei.value.trim();
+  if(!em)return;
+  bt.textContent='...';bt.style.opacity='.6';bt.disabled=true;ec.style.display='none';
+  try{
+    const r=await fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})});
+    const d=await r.json();
+    if(d.success){fc.style.display='none';sc.style.display='flex';}
+    else throw new Error(d.error||'Erreur');
+  }catch(err){
+    bt.textContent='Rejoindre';bt.style.opacity='1';bt.disabled=false;
+    ec.textContent='Une erreur est survenue. Réessayez.';ec.style.display='block';
+  }
+}
+</script>
+</body>
+</html>
