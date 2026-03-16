@@ -326,3 +326,28 @@ Si ce fichier est utilisé comme CLAUDE.md pour Claude Code :
 - Le formulaire email envoie un POST à `/api/subscribe` avec `{email: "..."}` 
 - L'API ajoute le contact à Brevo via leur API v3
 - Variables d'environnement Vercel : BREVO_API_KEY, BREVO_LIST_ID
+
+---
+
+## 14. INSTRUCTIONS FRONTEND — OBLIGATOIRE
+
+**RÈGLE : Avant toute modification du frontend (HTML, CSS, JS, React), tu DOIS suivre ces directives de design. Ne jamais produire du code frontend sans les appliquer.**
+
+### Design Direction pour Ordo
+- **Tone** : Premium, minimaliste, Apple-like. Luxury/refined avec touches organic.
+- **Palette** : Indigo #2D3A8C (principal), Navy #12152B (fonds sombres), Vert #86C5A3 (accent), Crème #FAFAF8 (background), Blanc #FFFFFF (surfaces)
+- **Typography** : Outfit (display, 600-700) + DM Sans (body, 400-500). JAMAIS Arial, Inter, Roboto ou fonts génériques.
+- **Motion** : Animations CSS reveal-on-scroll (opacity + translateY). Transitions cubic-bezier(.16,1,.3,1). Hover subtils (scale 1.02, color shifts).
+- **Spatial** : Sections généreuses (120px padding). Max-width 1060px conteneur large, 880px moyen, 720px étroit. Grids asymétriques (split 1fr 1fr avec gap 60px).
+
+### Règles strictes
+1. **Jamais de design générique "AI slop"** : pas de gradients violet sur blanc, pas de cards identiques en grille, pas de hero centré basique avec bouton bleu
+2. **Typography distinctive** : Outfit + DM Sans uniquement. Tailles display clamp(2.6rem, 6.5vw, 4.6rem), body 1.05rem
+3. **Couleurs via CSS variables** : Toujours utiliser les variables :root définies dans le fichier
+4. **Mockups de dashboard** : Inclure des visuels réalistes de l'app (KPIs, listes avec badges de statut, barres de progression)
+5. **Bordures fines** : 1px solid #e8e8ed sur les cards et sections. Border-radius 14-20px sur les cards, 980px sur les boutons (pill shape)
+6. **Boutons pill** : border-radius: 980px, padding 14px 32px, transitions au hover
+7. **Animations au scroll** : Classe .r (opacity:0, translateY:28px) → .v (visible) via IntersectionObserver
+8. **Mobile-first responsive** : @media(max-width:768px) pour toutes les grids
+9. **Fond transparent sur nav** : backdrop-filter blur(20px) avec background rgba semi-transparent
+10. **Vouvoiement** : Tout le texte en français formel (vous, votre)
