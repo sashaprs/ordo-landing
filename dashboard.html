@@ -942,7 +942,7 @@ function renderDocs(){
       statusHtml=`<span class="sbadge sbadge-todo"><span class="sbadge-dot"></span>À générer</span>`;
       btnHtml=`<button class="btn-sm" onclick="openModal('${d.id}')">${d.status==='todo'&&d.id==='certificat'?'Plan Pro requis':'Générer'}</button>`;
     }
-    return `<div class="doc-card"
+    return `<div class="doc-card">
       <div class="doc-card-icon" style="background:${d.iconBg};font-size:1.2rem">${d.icon}</div>
       <div class="doc-card-name">${d.name}</div>
       <div class="doc-card-desc">${d.desc}</div>
