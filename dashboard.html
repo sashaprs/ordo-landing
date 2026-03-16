@@ -971,7 +971,7 @@ function renderVendors(){
         <div class="vendor-logo" style="background:#fff;border:1px solid #e8e8ed;padding:0;overflow:hidden">
           <img src="https://logo.clearbit.com/${v.domain}" alt="${v.name}"
             style="width:100%;height:100%;object-fit:contain;padding:6px;display:block"
-            onerror="this.parentElement.style.background='${v.bg}';this.parentElement.style.border='none';this.outerHTML='<span style=\'font-family:var(--fd);font-weight:700;font-size:.95rem;color:${v.initialColor||\'#fff\'};width:100%;height:100%;display:flex;align-items:center;justify-content:center\'>${v.initial}</span>'">
+            onerror="logoFallback(this,'${v.bg}','${v.initial}','${v.initialColor||'#fff'}')">
         </div>
         <div><div class="vendor-name">${v.name}</div><div class="vendor-type">${v.type}</div></div>
       </div>
@@ -1106,6 +1106,14 @@ function handleTaskAction(action){
   if(action==='formations') showSec('formations',null);
   else if(action==='registre') showSec('registre',null);
   else openModal(action);
+}
+
+// ─── LOGO FALLBACK ─────────────────────────────────
+function logoFallback(img, bg, initial, color){
+  const p = img.parentElement;
+  p.style.background = bg;
+  p.style.border = 'none';
+  p.innerHTML = '<span style="font-family:var(--fd);font-weight:700;font-size:.95rem;color:'+color+';width:100%;height:100%;display:flex;align-items:center;justify-content:center">'+initial+'</span>';
 }
 
 // ─── LOGIN ─────────────────────────────────────────
