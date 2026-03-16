@@ -312,7 +312,7 @@ html,body{height:100%;font-family:var(--fb);color:var(--tx);background:var(--cr)
 <div id="login-view">
 <div class="login-wrap">
 <div class="login-card">
-  <div class="login-logo">Ordo<span class="login-logo-dot">.</span></div>
+  <a href="index.html" style="font-family:var(--fd);font-size:1.5rem;font-weight:700;letter-spacing:-.03em;color:var(--i);text-decoration:none;display:inline-block;margin-bottom:6px">Ordo.</a>
   <div class="login-title">Bon retour.</div>
   <p class="login-sub">Connectez-vous à votre espace conformité.</p>
 
@@ -347,17 +347,16 @@ html,body{height:100%;font-family:var(--fb);color:var(--tx);background:var(--cr)
 <!-- ── SIDEBAR ── -->
 <aside class="sidebar">
   <div class="sb-logo">
-    <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="11" stroke="#fff" stroke-width="2.5"/><path d="M8 13.5 L11 16.5 L18 9.5" stroke="#86C5A3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <span class="sb-logo-text">Ordo<span class="sb-logo-dot">.</span></span>
+    <a href="index.html" style="font-family:var(--fd);font-size:1.5rem;font-weight:700;letter-spacing:-.03em;color:#fff;text-decoration:none">Ordo.</a>
   </div>
 
   <div class="sb-score-card">
     <div class="sb-score-label">Conformité globale</div>
     <div class="sb-score-row">
-      <div class="sb-score-num">67%</div>
+      <div class="sb-score-num" id="sb-score-num">69%</div>
       <div class="sb-score-right">
         <div class="sb-score-label2">En progression</div>
-        <div class="sb-prog"><div class="sb-prog-fill" style="width:67%"></div></div>
+        <div class="sb-prog"><div class="sb-prog-fill" id="sb-prog-fill" style="width:69%"></div></div>
       </div>
     </div>
   </div>
@@ -446,17 +445,17 @@ html,body{height:100%;font-family:var(--fb);color:var(--tx);background:var(--cr)
           <circle cx="48" cy="48" r="38" fill="none" stroke="url(#sg1)" stroke-width="7" stroke-linecap="round" stroke-dasharray="0 238.8" stroke-dashoffset="0" id="score-arc" style="transition:stroke-dasharray 1.2s ease"/>
         </svg>
         <div class="score-inner">
-          <span class="score-pct">67%</span>
+          <span class="score-pct" id="score-pct">69%</span>
           <span class="score-unit">/100</span>
         </div>
       </div>
       <div class="score-text">
         <div class="score-title">Score de conformité — Ma Boutique</div>
-        <div class="score-desc">Vous avez complété 8 actions sur 13. Il vous reste 5 tâches pour atteindre la conformité totale, dont 2 critiques.</div>
+        <div class="score-desc" id="score-desc">Vous avez complété 9 actions sur 13. Il vous reste 4 tâches pour atteindre la conformité totale.</div>
         <div class="score-pills">
-          <div class="score-pill"><div class="score-pill-dot" style="background:#10B981"></div>5 terminées</div>
-          <div class="score-pill"><div class="score-pill-dot" style="background:#F59E0B"></div>2 en cours</div>
-          <div class="score-pill"><div class="score-pill-dot" style="background:#6A6E88"></div>6 à faire</div>
+          <div class="score-pill"><div class="score-pill-dot" style="background:#10B981"></div><span id="pill-done">9 terminées</span></div>
+          <div class="score-pill"><div class="score-pill-dot" style="background:#F59E0B"></div><span id="pill-ip">1 en cours</span></div>
+          <div class="score-pill"><div class="score-pill-dot" style="background:#6A6E88"></div><span id="pill-todo">3 à faire</span></div>
         </div>
       </div>
     </div>
@@ -472,7 +471,7 @@ html,body{height:100%;font-family:var(--fb);color:var(--tx);background:var(--cr)
       <div class="kpi">
         <div class="kpi-icon" style="background:var(--gns)"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#059669" stroke-width="2"><path d="M4 10l4 4 8-8"/></svg></div>
         <div class="kpi-label">Conformité</div>
-        <div class="kpi-val" style="color:#059669">67%</div>
+        <div class="kpi-val" id="kpi-conformite-val" style="color:#059669">69%</div>
         <div class="kpi-sub"><span class="kpi-up">↑ +12%</span> depuis le mois dernier</div>
       </div>
       <div class="kpi">
@@ -498,7 +497,7 @@ html,body{height:100%;font-family:var(--fb);color:var(--tx);background:var(--cr)
           <div class="roadmap-head">
             <div class="roadmap-head-left">
               <div class="roadmap-head-title">Plan d'actions RGPD</div>
-              <div class="roadmap-progress">8 / 13 actions complétées</div>
+              <div class="roadmap-progress" id="roadmap-progress-text">9 / 13 actions complétées</div>
             </div>
             <div class="filter-tabs">
               <button class="ftab active" onclick="filterRoadmap('all',this)">Tout</button>
@@ -824,16 +823,16 @@ const TASKS = [
   {id:1,name:'Mentions légales',cat:'docs',catLabel:'Documents',priority:'crit',status:'done',action:'mentions-legales'},
   {id:2,name:'Politique de confidentialité',cat:'docs',catLabel:'Documents',priority:'crit',status:'done',action:'politique-confidentialite'},
   {id:3,name:'Bandeau cookies RGPD',cat:'cookies',catLabel:'Cookies',priority:'high',status:'inprogress',action:'bandeau-cookies'},
-  {id:4,name:'Paramétrage du consentement',cat:'cookies',catLabel:'Cookies',priority:'high',status:'todo',action:null},
-  {id:5,name:'Registre de traitement',cat:'registre',catLabel:'Registre',priority:'crit',status:'inprogress',action:'registre'},
+  {id:4,name:'Paramétrage du consentement',cat:'cookies',catLabel:'Cookies',priority:'high',status:'done',action:null},
+  {id:5,name:'Registre de traitement',cat:'registre',catLabel:'Registre',priority:'crit',status:'done',action:'registre'},
   {id:6,name:'DPA — Shopify',cat:'traitants',catLabel:'Sous-traitants',priority:'high',status:'todo',action:'dpa'},
   {id:7,name:'DPA — Stripe',cat:'traitants',catLabel:'Sous-traitants',priority:'high',status:'done',action:'dpa'},
-  {id:8,name:'DPA — Mailchimp',cat:'traitants',catLabel:'Sous-traitants',priority:'med',status:'todo',action:'dpa'},
+  {id:8,name:'DPA — Mailchimp',cat:'traitants',catLabel:'Sous-traitants',priority:'med',status:'done',action:'dpa'},
   {id:9,name:'Audit Google Analytics',cat:'traitants',catLabel:'Sous-traitants',priority:'high',status:'alert',action:null},
   {id:10,name:'Procédure de violation de données',cat:'processus',catLabel:'Processus',priority:'high',status:'todo',action:null},
-  {id:11,name:'Formulaire demande d\'accès (DSAR)',cat:'processus',catLabel:'Processus',priority:'med',status:'todo',action:null},
+  {id:11,name:'Formulaire demande d\'accès (DSAR)',cat:'processus',catLabel:'Processus',priority:'med',status:'done',action:null},
   {id:12,name:'Formation RGPD — Module 1',cat:'formation',catLabel:'Formation',priority:'med',status:'done',action:'formations'},
-  {id:13,name:'Formation RGPD — Module 2',cat:'formation',catLabel:'Formation',priority:'med',status:'inprogress',action:'formations'},
+  {id:13,name:'Formation RGPD — Module 2',cat:'formation',catLabel:'Formation',priority:'med',status:'done',action:'formations'},
 ];
 
 const DOCS = [
@@ -871,9 +870,19 @@ const FORMATIONS = [
   {num:'05',title:'Sous-traitants & transferts',desc:'Gérer vos DPA, comprendre les transferts hors UE (SCC, Privacy Shield) et sécuriser vos outils.',duration:'20 min',progress:0,status:'todo'},
 ];
 
+// ─── DOC PREVIEWS ──────────────────────────────────
+const DOC_PREVIEWS = {
+  'mentions-legales':`<h3>MENTIONS LÉGALES — Ma Boutique</h3><p><strong>Éditeur du site</strong></p><p>Ma Boutique SAS — SIRET 123 456 789 00012<br>Email : contact@maboutique.fr<br>Directeur de publication : Marie Laurent</p><p><strong>Hébergeur</strong></p><p>Shopify Inc., 151 O'Connor Street, Ground floor, Ottawa, Ontario K2P 2L8, Canada. Shopify traite les données conformément aux clauses contractuelles types (SCC) approuvées par la Commission Européenne.</p><p><strong>Propriété intellectuelle</strong></p><p>L'ensemble du contenu de ce site est la propriété exclusive de Ma Boutique. Toute reproduction est interdite sans accord écrit préalable.</p>`,
+  'politique-confidentialite':`<h3>POLITIQUE DE CONFIDENTIALITÉ — Ma Boutique</h3><p><strong>Responsable du traitement</strong></p><p>Ma Boutique SAS, contact@maboutique.fr, traite vos données conformément au RGPD (UE) 2016/679.</p><p><strong>Données collectées</strong></p><p>Lors de vos commandes : nom, adresse postale, email, téléphone, données bancaires (chiffrées via Stripe). Lors de votre navigation : cookies analytiques (Google Analytics).</p><p><strong>Finalités et bases légales</strong></p><p>Traitement des commandes : exécution du contrat. Marketing : consentement. Analyses : intérêt légitime.</p><p><strong>Vos droits</strong></p><p>Accès, rectification, effacement, opposition, portabilité. Contact : contact@maboutique.fr ou CNIL : cnil.fr</p>`,
+  'bandeau-cookies':`<h3>BANDEAU COOKIES — Script HTML/CSS</h3><p><strong>Copiez-collez ce code avant &lt;/body&gt; de votre site :</strong></p><p style="font-family:monospace;font-size:.73rem;background:#f0f0f5;padding:10px;border-radius:6px;line-height:1.6">&lt;div id="ordo-banner" style="position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e8e8ed;padding:16px 24px;display:flex;align-items:center;gap:16px;z-index:9999;font-family:sans-serif;font-size:14px"&gt;<br>&nbsp;&nbsp;&lt;p style="flex:1;margin:0"&gt;Nous utilisons des cookies pour améliorer votre expérience. &lt;a href="/politique-confidentialite"&gt;En savoir plus&lt;/a&gt;&lt;/p&gt;<br>&nbsp;&nbsp;&lt;button onclick="ordo_accept()"&gt;Accepter&lt;/button&gt;<br>&nbsp;&nbsp;&lt;button onclick="ordo_refuse()"&gt;Refuser&lt;/button&gt;<br>&lt;/div&gt;</p><p>Script de gestion inclus. Conforme référentiel CNIL 2024.</p>`,
+  'dpa':`<h3>ACCORD DE SOUS-TRAITANCE (DPA) — Shopify</h3><p><strong>Entre :</strong> Ma Boutique SAS (ci-après "Responsable de traitement")</p><p><strong>Et :</strong> Shopify Inc., 151 O'Connor Street, Ottawa, Ontario, Canada (ci-après "Sous-traitant")</p><p><strong>Objet</strong></p><p>Le sous-traitant traite les données personnelles pour le compte du responsable aux fins de fourniture des services de plateforme e-commerce, hébergement et traitement des commandes.</p><p><strong>Données traitées :</strong> Nom, email, adresse, historique de commandes, données de paiement</p><p><strong>Durée de conservation :</strong> Durée du contrat + 5 ans pour obligations légales</p><p><strong>Transfert hors UE :</strong> Couvert par les Clauses Contractuelles Types (décision 2021/914)</p>`,
+  'registre':`<h3>REGISTRE DES ACTIVITÉS DE TRAITEMENT</h3><p><strong>Organisation :</strong> Ma Boutique SAS | <strong>DPO/Responsable :</strong> Marie Laurent</p><p><strong>1 — Gestion des commandes</strong><br>Base légale : Exécution du contrat | Données : Nom, adresse, email, paiement | Conservation : 5 ans | Destinataires : Shopify, Stripe, Colissimo</p><p><strong>2 — Prospection commerciale</strong><br>Base légale : Consentement | Données : Email, préférences | Conservation : 3 ans | Destinataires : Mailchimp</p><p><strong>3 — Analyse d'audience</strong><br>Base légale : Intérêt légitime | Données : Navigation, device, IP anonymisée | Conservation : 13 mois | Destinataires : Google Analytics</p>`,
+};
+
 // ─── RENDER ────────────────────────────────────────
 let activeFilter = 'all';
-let checkedTasks = new Set([1,2,7,12]);
+// Initial done task IDs (tasks with status:'done'): 1,2,4,5,7,8,11,12,13 = 9/13 = 69%
+let checkedTasks = new Set([1,2,4,5,7,8,11,12,13]);
 
 function renderRoadmap(){
   const tbody = document.getElementById('roadmap-tbody');
@@ -922,10 +931,10 @@ function renderDocs(){
     let statusHtml, iconBgStyle='', btnHtml='';
     if(d.status==='done'){
       statusHtml=`<span class="sbadge sbadge-done"><span class="sbadge-dot"></span>Généré</span>`;
-      btnHtml=`<div class="doc-actions"><button class="icon-btn-sm" title="Copier" onclick="copyDoc('${d.id}')"><svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="var(--i)" stroke-width="2"><rect x="8" y="2" width="10" height="14" rx="1.5"/><path d="M4 5H3a1 1 0 00-1 1v11a1 1 0 001 1h10a1 1 0 001-1v-1"/></svg></button><button class="icon-btn-sm" title="Télécharger PDF"><svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="var(--i)" stroke-width="2"><path d="M10 2v11m0 0l-3-3m3 3l3-3"/><path d="M3 16h14"/></svg></button></div>`;
+      btnHtml=`<div class="doc-actions"><button class="icon-btn-sm" title="Copier" onclick="copyDoc('${d.id}',this)"><svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="var(--i)" stroke-width="2"><rect x="8" y="2" width="10" height="14" rx="1.5"/><path d="M4 5H3a1 1 0 00-1 1v11a1 1 0 001 1h10a1 1 0 001-1v-1"/></svg></button><button class="icon-btn-sm" title="Télécharger PDF"><svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="var(--i)" stroke-width="2"><path d="M10 2v11m0 0l-3-3m3 3l3-3"/><path d="M3 16h14"/></svg></button></div>`;
     } else if(d.status==='inprogress'){
       statusHtml=`<span class="sbadge sbadge-ip"><span class="sbadge-dot"></span>En cours</span>`;
-      btnHtml=`<button class="btn-sm">Continuer</button>`;
+      btnHtml=`<button class="btn-sm" onclick="openModal('${d.id}')">Continuer</button>`;
     } else if(d.status==='partial'){
       statusHtml=`<span class="sbadge sbadge-ip"><span class="sbadge-dot"></span>Partiel</span>`;
       btnHtml=`<button class="btn-sm" onclick="openModal('${d.id}')">Générer</button>`;
@@ -933,7 +942,7 @@ function renderDocs(){
       statusHtml=`<span class="sbadge sbadge-todo"><span class="sbadge-dot"></span>À générer</span>`;
       btnHtml=`<button class="btn-sm" onclick="openModal('${d.id}')">${d.status==='todo'&&d.id==='certificat'?'Plan Pro requis':'Générer'}</button>`;
     }
-    return `<div class="doc-card" onclick="">
+    return `<div class="doc-card"
       <div class="doc-card-icon" style="background:${d.iconBg};font-size:1.2rem">${d.icon}</div>
       <div class="doc-card-name">${d.name}</div>
       <div class="doc-card-desc">${d.desc}</div>
@@ -1045,10 +1054,52 @@ function filterRoadmap(f, btn){
   renderRoadmap();
 }
 
+function getDoneCount(){
+  const doneIds = new Set([
+    ...TASKS.filter(t=>t.status==='done').map(t=>t.id),
+    ...checkedTasks
+  ]);
+  return doneIds.size;
+}
+
+function updateScore(){
+  const done = getDoneCount();
+  const total = TASKS.length;
+  const pct = Math.round(done/total*100);
+  const inprogress = TASKS.filter(t=>t.status==='inprogress'&&!checkedTasks.has(t.id)).length;
+  const todo = total - done - inprogress;
+  // SVG arc (circumference = 238.8)
+  const arc = document.getElementById('score-arc');
+  if(arc) arc.setAttribute('stroke-dasharray',`${(pct/100*238.8).toFixed(1)} 238.8`);
+  // Score banner
+  const pctEl=document.getElementById('score-pct');
+  if(pctEl) pctEl.textContent=pct+'%';
+  const descEl=document.getElementById('score-desc');
+  if(descEl) descEl.textContent=`Vous avez complété ${done} actions sur ${total}. Il vous reste ${total-done} tâche${total-done>1?'s':''} pour atteindre la conformité totale.`;
+  const pd=document.getElementById('pill-done');
+  const pi=document.getElementById('pill-ip');
+  const pt=document.getElementById('pill-todo');
+  if(pd) pd.textContent=done+' terminée'+(done>1?'s':'');
+  if(pi) pi.textContent=inprogress+' en cours';
+  if(pt) pt.textContent=todo+' à faire';
+  // Sidebar
+  const sbN=document.getElementById('sb-score-num');
+  const sbP=document.getElementById('sb-prog-fill');
+  if(sbN) sbN.textContent=pct+'%';
+  if(sbP) sbP.style.width=pct+'%';
+  // KPI
+  const kpiC=document.getElementById('kpi-conformite-val');
+  if(kpiC) kpiC.textContent=pct+'%';
+  // Roadmap header
+  const rp=document.getElementById('roadmap-progress-text');
+  if(rp) rp.textContent=`${done} / ${total} actions complétées`;
+}
+
 function toggleTask(id){
   if(checkedTasks.has(id)) checkedTasks.delete(id);
   else checkedTasks.add(id);
   renderRoadmap();
+  updateScore();
 }
 
 function handleTaskAction(action){
@@ -1062,10 +1113,7 @@ function doLogin(){
   document.getElementById('login-view').style.display='none';
   document.getElementById('app-view').style.display='flex';
   renderRoadmap();
-  setTimeout(()=>{
-    const arc = document.getElementById('score-arc');
-    if(arc) arc.setAttribute('stroke-dasharray','159.8 238.8');
-  }, 100);
+  setTimeout(()=>{ updateScore(); }, 120);
 }
 
 function doLogout(){
@@ -1074,11 +1122,11 @@ function doLogout(){
 }
 
 // ─── COPY DOC ──────────────────────────────────────
-function copyDoc(id){
-  const text = 'Document Ordo — copié dans le presse-papier (démo).';
+function copyDoc(id, el){
+  const text = (DOC_PREVIEWS[id]||'').replace(/<[^>]+>/g,'').trim() || 'Document Ordo';
   navigator.clipboard.writeText(text).catch(()=>{});
-  const btn = event.target.closest('button');
-  if(btn){ btn.style.background='var(--gns)'; setTimeout(()=>btn.style.background='',1000); }
+  const btn = el ? el.closest('button') : null;
+  if(btn){ btn.style.background='var(--gns)'; setTimeout(()=>btn.style.background='',1200); }
 }
 
 // ─── MODAL WIZARD ──────────────────────────────────
@@ -1194,37 +1242,30 @@ function renderModalStep(){
       <div class="generate-title">Génération en cours…</div>
       <div class="generate-sub">Ordo personnalise votre document selon les informations renseignées.</div>
     </div>`;
+    const docName = DOC_NAMES[selectedDocType]||'Document';
+    const docPreview = DOC_PREVIEWS[selectedDocType]||`<h3>${docName}</h3><p>Votre document personnalisé pour Ma Boutique a été généré avec succès.</p>`;
     setTimeout(()=>{
-      document.getElementById('gen-loading').innerHTML = `
+      const el = document.getElementById('gen-loading');
+      if(!el) return;
+      el.innerHTML = `
         <div style="width:52px;height:52px;border-radius:50%;background:var(--gns);display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
         </div>
         <div class="generate-title">Votre document est prêt !</div>
-        <div class="generate-sub">Mentions légales — Ma Boutique — généré le ${new Date().toLocaleDateString('fr-FR')}</div>
-        <div class="doc-preview-box">
-          <h3>MENTIONS LÉGALES — Ma Boutique</h3>
-          <p><strong>Éditeur du site</strong></p>
-          <p>Le présent site internet est édité par la société <strong>Ma Boutique SAS</strong>, immatriculée au RCS sous le numéro SIRET 123 456 789 00012, dont le siège social est situé en France.</p>
-          <p><strong>Contact :</strong> contact@maboutique.fr</p>
-          <p><strong>Directeur de la publication :</strong> Marie Laurent</p>
-          <p><strong>Hébergeur</strong></p>
-          <p>Ce site est hébergé par Shopify Inc., 151 O'Connor Street, Ground floor, Ottawa, Ontario K2P 2L8, Canada. Shopify traite les données de votre boutique conformément à ses clauses contractuelles types (SCC) approuvées par la Commission Européenne.</p>
-          <p><strong>Propriété intellectuelle</strong></p>
-          <p>L'ensemble du contenu de ce site (textes, images, graphismes, logo, icônes, sons, logiciels…) est la propriété exclusive de Ma Boutique, à l'exception des marques, logos ou contenus appartenant à d'autres sociétés partenaires ou auteurs.</p>
-          <p>Toute reproduction, distribution, modification, adaptation, retransmission ou publication de ces éléments est strictement interdite sans l'accord exprès par écrit de Ma Boutique.</p>
-        </div>
+        <div class="generate-sub">${docName} — Ma Boutique — ${new Date().toLocaleDateString('fr-FR')}</div>
+        <div class="doc-preview-box">${docPreview}</div>
         <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap">
           <button class="btn-primary" onclick="closeModal()">
             <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="2"><path d="M10 2v11m0 0l-3-3m3 3l3-3"/><path d="M3 16h14"/></svg>
             Télécharger PDF
           </button>
-          <button class="btn-secondary" onclick="closeModal()">
+          <button class="btn-secondary" onclick="copyDoc('${selectedDocType}',this);this.textContent='Copié ✓'">
             <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="var(--i)" stroke-width="2"><rect x="8" y="2" width="10" height="14" rx="1.5"/><path d="M4 5H3a1 1 0 00-1 1v11a1 1 0 001 1h10a1 1 0 001-1v-1"/></svg>
             Copier le texte
           </button>
           <button class="btn-secondary" onclick="closeModal()">Fermer</button>
         </div>`;
-    }, 2000);
+    }, 1800);
   }
 }
 
@@ -1248,6 +1289,7 @@ function modalPrev(){
 
 // ─── INIT ──────────────────────────────────────────
 renderRoadmap();
+updateScore();
 </script>
 </body>
 </html>
