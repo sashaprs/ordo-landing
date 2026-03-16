@@ -845,13 +845,13 @@ const DOCS = [
 ];
 
 const VENDORS = [
-  {name:'Shopify',initial:'S',bg:'#96BF48',type:'Plateforme e-commerce',location:'États-Unis',transfer:'Clauses contractuelles types (SCC)',data:'Nom, adresse, email, commandes',dpa:'todo',count:14},
-  {name:'Stripe',initial:'S',bg:'#635BFF',type:'Paiement en ligne',location:'Union Européenne',transfer:'Hébergé en UE',data:'Données bancaires, email',dpa:'done',count:6},
-  {name:'Mailchimp',initial:'M',bg:'#FFE01B',initialColor:'#000',type:'Email marketing',location:'États-Unis',transfer:'Clauses contractuelles types (SCC)',data:'Email, prénom, historique achats',dpa:'todo',count:5},
-  {name:'Google Analytics',initial:'G',bg:'#E37400',type:'Analyse d\'audience',location:'États-Unis',transfer:'À clarifier ⚠️',data:'Navigation, device, localisation',dpa:'alert',count:12},
-  {name:'Colissimo',initial:'C',bg:'#FFD100',initialColor:'#000',type:'Livraison colis',location:'Union Européenne',transfer:'Hébergé en UE',data:'Nom, adresse, téléphone',dpa:'done',count:8},
-  {name:'Crisp',initial:'C',bg:'#1972F5',type:'Chat support',location:'Union Européenne',transfer:'Hébergé en UE',data:'Email, messages, navigation',dpa:'todo',count:4},
-  {name:'Trustpilot',initial:'T',bg:'#00B67A',type:'Avis clients',location:'Danemark (UE)',transfer:'Hébergé en UE',data:'Email, prénom, commande',dpa:'done',count:3},
+  {name:'Shopify',initial:'S',bg:'#96BF48',domain:'shopify.com',type:'Plateforme e-commerce',location:'États-Unis',transfer:'Clauses contractuelles types (SCC)',data:'Nom, adresse, email, commandes',dpa:'todo',count:14},
+  {name:'Stripe',initial:'S',bg:'#635BFF',domain:'stripe.com',type:'Paiement en ligne',location:'Union Européenne',transfer:'Hébergé en UE',data:'Données bancaires, email',dpa:'done',count:6},
+  {name:'Mailchimp',initial:'M',bg:'#FFE01B',domain:'mailchimp.com',type:'Email marketing',location:'États-Unis',transfer:'Clauses contractuelles types (SCC)',data:'Email, prénom, historique achats',dpa:'todo',count:5},
+  {name:'Google Analytics',initial:'G',bg:'#E37400',domain:'analytics.google.com',type:'Analyse d\'audience',location:'États-Unis',transfer:'À clarifier ⚠️',data:'Navigation, device, localisation',dpa:'alert',count:12},
+  {name:'Colissimo',initial:'C',bg:'#FFD100',domain:'laposte.fr',type:'Livraison colis',location:'Union Européenne',transfer:'Hébergé en UE',data:'Nom, adresse, téléphone',dpa:'done',count:8},
+  {name:'Crisp',initial:'C',bg:'#1972F5',domain:'crisp.chat',type:'Chat support',location:'Union Européenne',transfer:'Hébergé en UE',data:'Email, messages, navigation',dpa:'todo',count:4},
+  {name:'Trustpilot',initial:'T',bg:'#00B67A',domain:'trustpilot.com',type:'Avis clients',location:'Danemark (UE)',transfer:'Hébergé en UE',data:'Email, prénom, commande',dpa:'done',count:3},
 ];
 
 const REGISTRE = [
@@ -968,7 +968,11 @@ function renderVendors(){
       : `<span style="display:inline-block;padding:2px 8px;border-radius:980px;background:var(--ams);color:#92400E;font-family:var(--fb);font-size:.68rem;font-weight:600">Hors UE</span>`;
     return `<div class="vendor-card">
       <div class="vendor-header">
-        <div class="vendor-logo" style="background:${v.bg};color:${v.initialColor||'#fff'}">${v.initial}</div>
+        <div class="vendor-logo" style="background:#fff;border:1px solid #e8e8ed;padding:0;overflow:hidden">
+          <img src="https://logo.clearbit.com/${v.domain}" alt="${v.name}"
+            style="width:100%;height:100%;object-fit:contain;padding:6px;display:block"
+            onerror="this.parentElement.style.background='${v.bg}';this.parentElement.style.border='none';this.outerHTML='<span style=\'font-family:var(--fd);font-weight:700;font-size:.95rem;color:${v.initialColor||\'#fff\'};width:100%;height:100%;display:flex;align-items:center;justify-content:center\'>${v.initial}</span>'">
+        </div>
         <div><div class="vendor-name">${v.name}</div><div class="vendor-type">${v.type}</div></div>
       </div>
       <div class="vendor-data-row"><span>Localisation</span><span class="vendor-data-val">${locBadge}</span></div>
@@ -1234,32 +1238,72 @@ function renderModalStep(){
     nextBtn.textContent = 'Continuer →';
 
   } else if(modalStep === 2){
-    body.innerHTML = `
-      <p style="font-family:var(--fb);font-size:.85rem;color:var(--dg);margin-bottom:18px;line-height:1.55">Sélectionnez les types de données que vous collectez sur votre boutique. Ordo personnalisera le document en conséquence.</p>
-      <div class="form-group">
-        <label class="form-label">Données personnelles collectées</label>
-        <div class="check-grid">
-          <label class="check-item"><input type="checkbox" checked> Nom et prénom</label>
-          <label class="check-item"><input type="checkbox" checked> Adresse postale</label>
-          <label class="check-item"><input type="checkbox" checked> Adresse email</label>
-          <label class="check-item"><input type="checkbox" checked> Numéro de téléphone</label>
-          <label class="check-item"><input type="checkbox" checked> Données bancaires</label>
-          <label class="check-item"><input type="checkbox"> Date de naissance</label>
-          <label class="check-item"><input type="checkbox" checked> Historique d'achats</label>
-          <label class="check-item"><input type="checkbox"> Préférences & cookies</label>
-          <label class="check-item"><input type="checkbox" checked> Données de navigation</label>
-          <label class="check-item"><input type="checkbox"> Données de géolocalisation</label>
+    if(selectedDocType === 'registre'){
+      body.innerHTML = `
+        <div class="form-group">
+          <label class="form-label">Nom du traitement</label>
+          <input class="form-input" type="text" id="f-traitement" placeholder="ex: Gestion des commandes, Newsletter…">
         </div>
-      </div>
-      <div class="form-group" style="margin-top:6px">
-        <label class="form-label">Durée de conservation par défaut</label>
-        <select class="form-select" style="border:1px solid #d2d2d7;border-radius:9px;padding:11px 13px;font-family:var(--fb);font-size:.88rem;outline:none;width:100%">
-          <option>3 ans (recommandé)</option>
-          <option>5 ans</option>
-          <option>1 an</option>
-          <option>Durée légale spécifique par données</option>
-        </select>
-      </div>`;
+        <div class="form-group">
+          <label class="form-label">Finalité du traitement</label>
+          <input class="form-input" type="text" id="f-finalite" placeholder="ex: Traitement et livraison des commandes clients">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Base légale</label>
+          <select class="form-select" id="f-base" style="border:1px solid #d2d2d7;border-radius:9px;padding:11px 13px;font-family:var(--fb);font-size:.88rem;outline:none;width:100%">
+            <option value="contrat">Exécution du contrat</option>
+            <option value="consent">Consentement</option>
+            <option value="legitime">Intérêt légitime</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Durée de conservation</label>
+          <select class="form-select" id="f-conservation" style="border:1px solid #d2d2d7;border-radius:9px;padding:11px 13px;font-family:var(--fb);font-size:.88rem;outline:none;width:100%">
+            <option value="3 ans">3 ans (recommandé)</option>
+            <option value="5 ans">5 ans</option>
+            <option value="1 an">1 an</option>
+            <option value="13 mois">13 mois (analytics)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Données collectées</label>
+          <div class="check-grid">
+            <label class="check-item"><input type="checkbox" checked> Nom et prénom</label>
+            <label class="check-item"><input type="checkbox" checked> Adresse email</label>
+            <label class="check-item"><input type="checkbox" checked> Adresse postale</label>
+            <label class="check-item"><input type="checkbox"> Téléphone</label>
+            <label class="check-item"><input type="checkbox"> Données bancaires</label>
+            <label class="check-item"><input type="checkbox"> Données de navigation</label>
+          </div>
+        </div>`;
+    } else {
+      body.innerHTML = `
+        <p style="font-family:var(--fb);font-size:.85rem;color:var(--dg);margin-bottom:18px;line-height:1.55">Sélectionnez les types de données que vous collectez. Ordo personnalisera le document en conséquence.</p>
+        <div class="form-group">
+          <label class="form-label">Données personnelles collectées</label>
+          <div class="check-grid">
+            <label class="check-item"><input type="checkbox" checked> Nom et prénom</label>
+            <label class="check-item"><input type="checkbox" checked> Adresse postale</label>
+            <label class="check-item"><input type="checkbox" checked> Adresse email</label>
+            <label class="check-item"><input type="checkbox" checked> Numéro de téléphone</label>
+            <label class="check-item"><input type="checkbox" checked> Données bancaires</label>
+            <label class="check-item"><input type="checkbox"> Date de naissance</label>
+            <label class="check-item"><input type="checkbox" checked> Historique d'achats</label>
+            <label class="check-item"><input type="checkbox"> Préférences & cookies</label>
+            <label class="check-item"><input type="checkbox" checked> Données de navigation</label>
+            <label class="check-item"><input type="checkbox"> Données de géolocalisation</label>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:6px">
+          <label class="form-label">Durée de conservation par défaut</label>
+          <select class="form-select" style="border:1px solid #d2d2d7;border-radius:9px;padding:11px 13px;font-family:var(--fb);font-size:.88rem;outline:none;width:100%">
+            <option>3 ans (recommandé)</option>
+            <option>5 ans</option>
+            <option>1 an</option>
+            <option>Durée légale spécifique par données</option>
+          </select>
+        </div>`;
+    }
     nextBtn.textContent = 'Générer le document →';
 
   } else if(modalStep === 3){
@@ -1272,7 +1316,29 @@ function renderModalStep(){
     </div>`;
     const docName = DOC_NAMES[selectedDocType]||'Document';
     const docPreview = DOC_PREVIEWS[selectedDocType]||`<h3>${docName}</h3><p>Votre document personnalisé pour Ma Boutique a été généré avec succès.</p>`;
+    // Si type registre, capturer les données du formulaire pour créer l'entrée
+    const regFinalite = document.getElementById('f-finalite') ? document.getElementById('f-finalite').value : null;
+    const regTraitement = document.getElementById('f-traitement') ? document.getElementById('f-traitement').value : null;
+    const regBase = document.getElementById('f-base') ? document.getElementById('f-base').value : 'contrat';
+    const regConservation = document.getElementById('f-conservation') ? document.getElementById('f-conservation').value : '3 ans';
+
     setTimeout(()=>{
+      // Mise à jour du registre après génération
+      if(selectedDocType === 'registre'){
+        const baseMap = {'contrat':'Exécution du contrat','consent':'Consentement','legitime':'Intérêt légitime'};
+        REGISTRE.push({
+          traitement: regTraitement || 'Nouveau traitement',
+          finalite: regFinalite || 'Finalité définie selon votre activité',
+          donnees: 'Selon données sélectionnées à l\'étape 2',
+          base: regBase,
+          baseTxt: baseMap[regBase] || 'Exécution du contrat',
+          conservation: regConservation,
+          traitant: 'À préciser'
+        });
+        if(document.getElementById('sec-registre').classList.contains('active')){
+          renderRegistre();
+        }
+      }
       const el = document.getElementById('gen-loading');
       if(!el) return;
       el.innerHTML = `
