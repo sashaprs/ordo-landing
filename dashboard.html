@@ -888,18 +888,18 @@ function renderRoadmap(){
   const tbody = document.getElementById('roadmap-tbody');
   let filtered = TASKS.filter(t=>{
     if(activeFilter==='all') return true;
-    if(activeFilter==='done') return t.status==='done' || checkedTasks.has(t.id);
-    if(activeFilter==='inprogress') return t.status==='inprogress';
-    if(activeFilter==='todo') return (t.status==='todo'||t.status==='alert') && !checkedTasks.has(t.id);
+    if(activeFilter==='done') return checkedTasks.has(t.id);
+    if(activeFilter==='inprogress') return !checkedTasks.has(t.id) && t.status==='inprogress';
+    if(activeFilter==='todo') return !checkedTasks.has(t.id) && t.status!=='inprogress';
     return true;
   });
   tbody.innerHTML = filtered.map(t=>{
-    const isDone = t.status==='done' || checkedTasks.has(t.id);
+    const isDone = checkedTasks.has(t.id);
     const catCls = {docs:'cat-docs',cookies:'cat-cookies',traitants:'cat-traitants',processus:'cat-processus',formation:'cat-formation',registre:'cat-registre'}[t.cat];
     const priTxt = {crit:'Critique',high:'Haute',med:'Moyenne'}[t.priority];
     const priCls = {crit:'priority-crit',high:'priority-high',med:'priority-med'}[t.priority];
     let statusHtml;
-    const s = isDone ? 'done' : t.status;
+    const s = isDone ? 'done' : (t.status==='done' ? 'todo' : t.status);
     if(s==='done') statusHtml=`<span class="sbadge sbadge-done"><span class="sbadge-dot"></span>Terminé</span>`;
     else if(s==='inprogress') statusHtml=`<span class="sbadge sbadge-ip"><span class="sbadge-dot"></span>En cours</span>`;
     else if(s==='alert') statusHtml=`<span class="sbadge sbadge-alert"><span class="sbadge-dot"></span>À vérifier</span>`;
@@ -1055,11 +1055,7 @@ function filterRoadmap(f, btn){
 }
 
 function getDoneCount(){
-  const doneIds = new Set([
-    ...TASKS.filter(t=>t.status==='done').map(t=>t.id),
-    ...checkedTasks
-  ]);
-  return doneIds.size;
+  return checkedTasks.size;
 }
 
 function updateScore(){
@@ -1119,6 +1115,38 @@ function doLogin(){
 function doLogout(){
   document.getElementById('app-view').style.display='none';
   document.getElementById('login-view').style.display='block';
+}
+
+// ─── PDF DOWNLOAD ──────────────────────────────────
+function downloadPDF(docType){
+  const name = DOC_NAMES[docType]||'Document';
+  const content = DOC_PREVIEWS[docType]||`<h3>${name}</h3><p>Document généré par Ordo.</p>`;
+  const win = window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">
+<title>${name} — Ma Boutique</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;color:#1d1d1f;background:#fff;padding:40px 60px;font-size:13.5px;line-height:1.7;max-width:780px;margin:0 auto}
+  .doc-header{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:18px;border-bottom:2px solid #2D3A8C;margin-bottom:28px}
+  .doc-logo{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.03em;color:#2D3A8C}
+  .doc-meta{font-size:11px;color:#8E8E93;text-align:right;line-height:1.5}
+  h3{font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;color:#2D3A8C;margin-bottom:16px;letter-spacing:-.01em}
+  p{margin-bottom:10px;color:#333}
+  strong{font-weight:600;color:#1d1d1f}
+  .doc-footer{margin-top:40px;padding-top:14px;border-top:1px solid #e8e8ed;font-size:11px;color:#8E8E93;display:flex;justify-content:space-between}
+  @media print{body{padding:20px 30px}@page{margin:1cm}}
+</style></head><body>
+<div class="doc-header">
+  <div class="doc-logo">Ordo.</div>
+  <div class="doc-meta">Généré le ${new Date().toLocaleDateString('fr-FR')}<br>Ma Boutique — maboutique.fr<br>Document conforme RGPD (UE) 2016/679</div>
+</div>
+${content}
+<div class="doc-footer"><span>Ordo · getordo.fr</span><span>${name} · Ma Boutique</span></div>
+</body></html>`);
+  win.document.close();
+  win.focus();
+  setTimeout(()=>{win.print();},600);
 }
 
 // ─── COPY DOC ──────────────────────────────────────
@@ -1255,7 +1283,7 @@ function renderModalStep(){
         <div class="generate-sub">${docName} — Ma Boutique — ${new Date().toLocaleDateString('fr-FR')}</div>
         <div class="doc-preview-box">${docPreview}</div>
         <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap">
-          <button class="btn-primary" onclick="closeModal()">
+          <button class="btn-primary" onclick="downloadPDF('${selectedDocType}')">
             <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="2"><path d="M10 2v11m0 0l-3-3m3 3l3-3"/><path d="M3 16h14"/></svg>
             Télécharger PDF
           </button>
