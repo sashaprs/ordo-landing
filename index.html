@@ -36,7 +36,8 @@
 .prog{height:6px;background:#e8e8ed;border-radius:3px;overflow:hidden;margin-top:6px}.prog-fill{height:100%;border-radius:3px}
 .ft{padding:32px 40px;border-top:1px solid #e8e8ed;display:flex;justify-content:space-between;align-items:center;background:var(--cr)}.fl{display:flex;gap:28px}.fla{font-family:var(--fb);font-size:.78rem;color:var(--mg);text-decoration:none;transition:color .2s}.fla:hover{color:var(--i)}
 .r{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}.r.v{opacity:1;transform:translateY(0)}.rd1{transition-delay:.12s}.rd2{transition-delay:.24s}.rd3{transition-delay:.36s}.rd4{transition-delay:.48s}
-@media(max-width:768px){.s{padding:80px 20px}.nav{padding:0 20px}.fr{flex-direction:column}.ei,.eid{width:100%}.sr{flex-direction:column;gap:32px}.fg{grid-template-columns:1fr}.sg{grid-template-columns:1fr;gap:32px}.pr{flex-direction:column;align-items:center;gap:16px}.pf{transform:scale(1)}.split,.split-r{grid-template-columns:1fr;gap:32px}.ft{flex-direction:column;gap:16px;text-align:center}}
+.ftab{display:inline-flex;align-items:center;gap:7px;font-family:var(--fb);font-size:.82rem;font-weight:500;color:var(--dg);background:transparent;border:none;border-radius:9px;padding:9px 16px;cursor:pointer;transition:all .2s cubic-bezier(.16,1,.3,1);white-space:nowrap}.ftab:hover{color:var(--tx);background:rgba(0,0,0,.04)}.ftab-active{background:#fff!important;color:var(--i)!important;font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.1)}.fpanel{animation:fadeSlide .35s cubic-bezier(.16,1,.3,1)}@keyframes fadeSlide{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:768px){.s{padding:80px 20px}.nav{padding:0 20px}.fr{flex-direction:column}.ei,.eid{width:100%}.sr{flex-direction:column;gap:32px}.fg{grid-template-columns:1fr}.sg{grid-template-columns:1fr;gap:32px}.pr{flex-direction:column;align-items:center;gap:16px}.pf{transform:scale(1)}.split,.split-r{grid-template-columns:1fr;gap:32px}.ft{flex-direction:column;gap:16px;text-align:center}#feat-tabs{gap:2px}.ftab{padding:8px 10px;font-size:.75rem}}
 </style>
 </head>
 <body>
@@ -107,66 +108,210 @@
 <div class="r rd3"><div class="sn" style="color:#2E3254">03</div><h3 class="st" style="color:#fff">Intégrez et oubliez</h3><p class="sdd" style="color:#8A8EA8">Copiez-collez sur votre site. Ordo surveille les évolutions légales et met à jour vos documents automatiquement.</p></div>
 </div></div></section>
 
-<!-- FEATURE: DOCUMENTS -->
-<section id="fonctionnalites" class="s sc"><div class="cm"><div class="split-r"><div>
-<p class="tl r">Génération de documents</p>
-<h2 class="th r rd1" style="margin-top:16px">Tous les documents de votre boutique, en un clic.</h2>
-<p class="tb r rd2" style="margin-top:14px">Plus de templates copiés sur un concurrent. Ordo génère des documents personnalisés à votre boutique, votre plateforme, et vos outils.</p>
-<div style="margin-top:20px;display:flex;flex-direction:column;gap:10px">
-<div class="r rd2" style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Mentions légales conformes</span></div>
-<div class="r rd2" style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Politique de confidentialité détaillée</span></div>
-<div class="r rd3" style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Registre de traitement pré-rempli</span></div>
-<div class="r rd3" style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Bandeau cookies prêt à copier</span></div>
-<div class="r rd4" style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">DPA sous-traitant adaptés</span></div>
-</div></div>
-<!-- Doc mockup -->
-<div class="r rd2"><div class="mock"><div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div><div class="mock-body">
+<!-- FEATURES TABS -->
+<section id="fonctionnalites" class="s sc" style="padding-bottom:80px"><div class="cw tc">
+<p class="tl r">Fonctionnalités</p>
+<h2 class="th r rd1" style="margin-top:16px">Tout ce qu'il faut,<br>exactement là où il faut.</h2>
+<p class="tb r rd2" style="max-width:520px;margin:14px auto 0">Chaque fonctionnalité répond à une obligation concrète du RGPD, adaptée à votre boutique.</p>
+
+<!-- Tab nav -->
+<div class="r rd2" id="feat-tabs" style="display:flex;justify-content:center;gap:4px;margin-top:48px;background:var(--wg);border-radius:14px;padding:6px;width:fit-content;margin-left:auto;margin-right:auto;flex-wrap:wrap">
+<button onclick="switchTab(0)" id="ftab-0" class="ftab ftab-active">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+  Documents
+</button>
+<button onclick="switchTab(1)" id="ftab-1" class="ftab">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+  Sous-traitants
+</button>
+<button onclick="switchTab(2)" id="ftab-2" class="ftab">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+  Registre
+</button>
+<button onclick="switchTab(3)" id="ftab-3" class="ftab">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  Cookies
+</button>
+<button onclick="switchTab(4)" id="ftab-4" class="ftab">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+  Score
+</button>
+</div>
+
+<!-- Tab panels -->
+<div id="fpanels" style="margin-top:48px;text-align:left">
+
+<!-- Panel 0: Documents -->
+<div id="fpanel-0" class="fpanel">
+<div class="split-r"><div>
+<p class="tl">Génération de documents</p>
+<h2 class="th" style="margin-top:16px">Tous les documents de votre boutique, en un clic.</h2>
+<p class="tb" style="margin-top:14px">Plus de templates copiés sur un concurrent. Ordo génère des documents personnalisés à votre boutique, votre plateforme et vos outils.</p>
+<div style="margin-top:24px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Mentions légales conformes LCEN</span></div>
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Politique de confidentialité détaillée</span></div>
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Registre de traitement pré-rempli</span></div>
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">DPA sous-traitants adaptés à vos outils</span></div>
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Export PDF en un clic</span></div>
+</div>
+</div>
+<div><div class="mock"><div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div><div class="mock-body">
 <div style="font-family:var(--fb);font-size:.7rem;font-weight:600;color:var(--mg);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px">Vos documents</div>
 <div style="display:flex;flex-direction:column;gap:8px">
-<div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--is);border-radius:10px"><div style="width:30px;height:30px;border-radius:8px;background:var(--i);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div><div style="flex:1"><div style="font-family:var(--fb);font-size:.82rem;font-weight:500;color:var(--tx)">Mentions légales</div><div style="font-family:var(--fb);font-size:.65rem;color:var(--il)">Mis à jour il y a 2h</div></div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></div>
-<div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--is);border-radius:10px"><div style="width:30px;height:30px;border-radius:8px;background:var(--i);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div><div style="flex:1"><div style="font-family:var(--fb);font-size:.82rem;font-weight:500;color:var(--tx)">Politique de confidentialité</div><div style="font-family:var(--fb);font-size:.65rem;color:var(--il)">Mis à jour il y a 2h</div></div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></div>
-<div style="display:flex;align-items:center;gap:12px;padding:12px;background:#FEF3C7;border-radius:10px"><div style="width:30px;height:30px;border-radius:8px;background:#F59E0B;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div style="flex:1"><div style="font-family:var(--fb);font-size:.82rem;font-weight:500;color:var(--tx)">Bandeau cookies</div><div style="font-family:var(--fb);font-size:.65rem;color:#B45309">En cours...</div></div></div>
-<div style="display:flex;align-items:center;gap:12px;padding:12px;background:#f8f8fa;border-radius:10px"><div style="width:30px;height:30px;border-radius:8px;background:#e0e0e5;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div><div style="flex:1"><div style="font-family:var(--fb);font-size:.82rem;font-weight:500;color:var(--mg)">Registre de traitement</div><div style="font-family:var(--fb);font-size:.65rem;color:var(--mg)">À générer</div></div></div>
-</div></div></div></div>
-</div></div></section>
-
-<!-- FEATURE: TOOLS -->
-<section class="s sw"><div class="cm"><div class="split"><div>
-<p class="tl r">Gestion des sous-traitants</p>
-<h2 class="th r rd1" style="margin-top:16px">Shopify, Stripe, Mailchimp… Tous audités.</h2>
-<p class="tb r rd2" style="margin-top:14px">Votre boutique utilise des dizaines d'outils qui traitent des données pour votre compte. Ordo les identifie, vérifie leur conformité et génère les contrats sous-traitant (DPA).</p>
-<div style="margin-top:20px;display:flex;flex-direction:column;gap:10px">
-<div class="r rd2" style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Détection automatique de vos outils</span></div>
-<div class="r rd3" style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Vérification hébergement UE / hors UE</span></div>
-<div class="r rd3" style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Génération de DPA pour chaque outil</span></div>
-</div></div>
-<!-- Tools mockup -->
-<div class="r rd2"><div class="mock"><div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div><div class="mock-body">
-<div style="font-family:var(--fb);font-size:.7rem;font-weight:600;color:var(--mg);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Vos sous-traitants</div>
-<div class="tr"><div style="width:26px;height:26px;border-radius:6px;background:#96BF48;display:flex;align-items:center;justify-content:center"><span style="color:#fff;font-size:.65rem;font-weight:700">S</span></div><div class="tr-name">Shopify</div><div class="tr-tag" style="background:var(--ams);color:#92400E">US (SCC)</div><div class="tr-count">14 données</div></div>
-<div class="tr"><div style="width:26px;height:26px;border-radius:6px;background:#635BFF;display:flex;align-items:center;justify-content:center"><span style="color:#fff;font-size:.65rem;font-weight:700">S</span></div><div class="tr-name">Stripe</div><div class="tr-tag" style="background:var(--gns);color:#065F46">UE</div><div class="tr-count">6 données</div></div>
-<div class="tr"><div style="width:26px;height:26px;border-radius:6px;background:#FFE01B;display:flex;align-items:center;justify-content:center"><span style="color:#000;font-size:.65rem;font-weight:700">M</span></div><div class="tr-name">Mailchimp</div><div class="tr-tag" style="background:var(--ams);color:#92400E">US (SCC)</div><div class="tr-count">5 données</div></div>
-<div class="tr"><div style="width:26px;height:26px;border-radius:6px;background:#E37400;display:flex;align-items:center;justify-content:center"><span style="color:#fff;font-size:.65rem;font-weight:700">A</span></div><div class="tr-name">Google Analytics</div><div class="tr-tag" style="background:var(--rds);color:#991B1B">À vérifier</div><div class="tr-count">12 données</div></div>
-<div class="tr" style="border:none"><div style="width:26px;height:26px;border-radius:6px;background:#FFD100;display:flex;align-items:center;justify-content:center"><span style="color:#000;font-size:.65rem;font-weight:700">C</span></div><div class="tr-name">Colissimo</div><div class="tr-tag" style="background:var(--gns);color:#065F46">UE</div><div class="tr-count">8 données</div></div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--is);border-radius:10px"><div style="width:30px;height:30px;border-radius:8px;background:var(--i);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div><div style="flex:1"><div style="font-family:var(--fb);font-size:.82rem;font-weight:500;color:var(--tx)">Mentions légales</div><div style="font-family:var(--fb);font-size:.65rem;color:var(--il)">Mis à jour il y a 2h</div></div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--is);border-radius:10px"><div style="width:30px;height:30px;border-radius:8px;background:var(--i);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div><div style="flex:1"><div style="font-family:var(--fb);font-size:.82rem;font-weight:500;color:var(--tx)">Politique de confidentialité</div><div style="font-family:var(--fb);font-size:.65rem;color:var(--il)">Mis à jour il y a 2h</div></div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px;background:#FEF3C7;border-radius:10px"><div style="width:30px;height:30px;border-radius:8px;background:#F59E0B;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div style="flex:1"><div style="font-family:var(--fb);font-size:.82rem;font-weight:500;color:var(--tx)">Bandeau cookies</div><div style="font-family:var(--fb);font-size:.65rem;color:#B45309">En cours de génération…</div></div></div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px;background:#f8f8fa;border-radius:10px"><div style="width:30px;height:30px;border-radius:8px;background:#e0e0e5;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div><div style="flex:1"><div style="font-family:var(--fb);font-size:.82rem;font-weight:500;color:var(--mg)">Registre de traitement</div><div style="font-family:var(--fb);font-size:.65rem;color:var(--mg)">À générer</div></div><div style="font-family:var(--fb);font-size:.7rem;font-weight:500;color:var(--i);padding:4px 10px;border:1px solid var(--i);border-radius:980px;cursor:pointer">Générer</div></div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px;background:#f8f8fa;border-radius:10px"><div style="width:30px;height:30px;border-radius:8px;background:#e0e0e5;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></div><div style="flex:1"><div style="font-family:var(--fb);font-size:.82rem;font-weight:500;color:var(--mg)">Contrat sous-traitant — Shopify</div><div style="font-family:var(--fb);font-size:.65rem;color:var(--mg)">À générer</div></div><div style="font-family:var(--fb);font-size:.7rem;font-weight:500;color:var(--i);padding:4px 10px;border:1px solid var(--i);border-radius:980px;cursor:pointer">Générer</div></div>
+</div>
 </div></div></div>
-</div></div></section>
+</div></div>
+</div>
 
-<!-- FEATURE GRID -->
-<section class="s sc"><div class="cm tc">
-<p class="tl r">Fonctionnalités</p>
-<h2 class="th r rd1" style="margin-top:16px">Tout ce qu'il faut. Rien de plus.</h2>
-<p class="tb r rd2" style="max-width:480px;margin:14px auto 0">Chaque fonctionnalité répond à une obligation concrète du RGPD.</p>
-<div class="fg r rd3" style="margin-top:36px;text-align:left">
-<div class="fc"><div class="fc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2D3A8C" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div><div class="tm">Mentions légales</div><p class="tb" style="font-size:.85rem;margin-top:6px">Générées avec vos informations. Conformes LCEN.</p></div>
-<div class="fc"><div class="fc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2D3A8C" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div><div class="tm">Politique de confidentialité</div><p class="tb" style="font-size:.85rem;margin-top:6px">Adaptée à votre activité et vos outils.</p></div>
-<div class="fc"><div class="fc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2D3A8C" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div><div class="tm">Registre de traitement</div><p class="tb" style="font-size:.85rem;margin-top:6px">Pré-rempli. Obligatoire même pour les indépendants.</p></div>
-<div class="fc"><div class="fc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2D3A8C" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="tm">Bandeau cookies</div><p class="tb" style="font-size:.85rem;margin-top:6px">Script HTML prêt à copier-coller.</p></div>
-<div class="fc"><div class="fc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2D3A8C" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></div><div class="tm">Contrats sous-traitants</div><p class="tb" style="font-size:.85rem;margin-top:6px">DPA générés pour chaque outil.</p></div>
-<div class="fc"><div class="fc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2D3A8C" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div><div class="tm">Alertes légales</div><p class="tb" style="font-size:.85rem;margin-top:6px">La loi change, vos documents suivent.</p></div>
-<div class="fc"><div class="fc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2D3A8C" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="tm">Certificat conformité</div><p class="tb" style="font-size:.85rem;margin-top:6px">Export en un clic en cas de contrôle CNIL.</p></div>
-<div class="fc"><div class="fc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2D3A8C" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><div class="tm">Formation RGPD</div><p class="tb" style="font-size:.85rem;margin-top:6px">5 modules pour comprendre vos obligations.</p></div>
-<div class="fc"><div class="fc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2D3A8C" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg></div><div class="tm">Score de conformité</div><p class="tb" style="font-size:.85rem;margin-top:6px">Un score sur 100 qui évolue en temps réel.</p></div>
-</div></div></section>
+<!-- Panel 1: Sous-traitants -->
+<div id="fpanel-1" class="fpanel" style="display:none">
+<div class="split"><div>
+<p class="tl">Gestion des sous-traitants</p>
+<h2 class="th" style="margin-top:16px">Shopify, Stripe, Mailchimp… Tous audités automatiquement.</h2>
+<p class="tb" style="margin-top:14px">Votre boutique utilise des dizaines d'outils qui traitent des données pour votre compte. Ordo les identifie, vérifie leur conformité et génère les DPA nécessaires.</p>
+<div style="margin-top:24px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Détection automatique de vos outils tiers</span></div>
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Vérification hébergement UE / hors UE</span></div>
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Génération de DPA pour chaque outil</span></div>
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Alertes si un sous-traitant change de statut</span></div>
+</div>
+</div>
+<div><div class="mock"><div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div><div class="mock-body">
+<div style="font-family:var(--fb);font-size:.7rem;font-weight:600;color:var(--mg);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px">Vos sous-traitants — 5 détectés</div>
+<div class="tr"><img src="https://logo.clearbit.com/shopify.com" width="26" height="26" style="border-radius:6px;object-fit:contain;border:1px solid #eee" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;width:26px;height:26px;border-radius:6px;background:#96BF48;align-items:center;justify-content:center;font-family:var(--fd);font-weight:700;font-size:.65rem;color:#fff">S</div><div class="tr-name">Shopify</div><div class="tr-tag" style="background:var(--ams);color:#92400E">US · SCC</div><div class="tr-count">14 données</div></div>
+<div class="tr"><img src="https://logo.clearbit.com/stripe.com" width="26" height="26" style="border-radius:6px;object-fit:contain;border:1px solid #eee" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;width:26px;height:26px;border-radius:6px;background:#635BFF;align-items:center;justify-content:center;font-family:var(--fd);font-weight:700;font-size:.65rem;color:#fff">S</div><div class="tr-name">Stripe</div><div class="tr-tag" style="background:var(--gns);color:#065F46">UE ✓</div><div class="tr-count">6 données</div></div>
+<div class="tr"><img src="https://logo.clearbit.com/mailchimp.com" width="26" height="26" style="border-radius:6px;object-fit:contain;border:1px solid #eee" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;width:26px;height:26px;border-radius:6px;background:#FFE01B;align-items:center;justify-content:center;font-family:var(--fd);font-weight:700;font-size:.65rem;color:#000">M</div><div class="tr-name">Mailchimp</div><div class="tr-tag" style="background:var(--ams);color:#92400E">US · SCC</div><div class="tr-count">5 données</div></div>
+<div class="tr"><img src="https://logo.clearbit.com/analytics.google.com" width="26" height="26" style="border-radius:6px;object-fit:contain;border:1px solid #eee" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;width:26px;height:26px;border-radius:6px;background:#E37400;align-items:center;justify-content:center;font-family:var(--fd);font-weight:700;font-size:.65rem;color:#fff">G</div><div class="tr-name">Google Analytics</div><div class="tr-tag" style="background:var(--rds);color:#991B1B">À vérifier</div><div class="tr-count">12 données</div></div>
+<div class="tr" style="border:none"><img src="https://logo.clearbit.com/laposte.fr" width="26" height="26" style="border-radius:6px;object-fit:contain;border:1px solid #eee" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div style="display:none;width:26px;height:26px;border-radius:6px;background:#FFD100;align-items:center;justify-content:center;font-family:var(--fd);font-weight:700;font-size:.65rem;color:#000">C</div><div class="tr-name">Colissimo</div><div class="tr-tag" style="background:var(--gns);color:#065F46">UE ✓</div><div class="tr-count">8 données</div></div>
+</div></div></div>
+</div></div>
+</div>
+
+<!-- Panel 2: Registre -->
+<div id="fpanel-2" class="fpanel" style="display:none">
+<div class="split-r"><div>
+<p class="tl">Registre de traitement</p>
+<h2 class="th" style="margin-top:16px">Votre registre RGPD, pré-rempli et toujours à jour.</h2>
+<p class="tb" style="margin-top:14px">Obligation légale souvent oubliée. Ordo génère votre registre de traitement des données adapté à votre activité e-commerce, avec toutes les finalités, bases légales et durées de conservation.</p>
+<div style="margin-top:24px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Traitement des commandes</span></div>
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Gestion des données clients</span></div>
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Emailings et marketing</span></div>
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Export XLSX / PDF pour audit CNIL</span></div>
+</div>
+</div>
+<div><div class="mock"><div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div><div class="mock-body" style="padding:16px 20px">
+<div style="font-family:var(--fb);font-size:.7rem;font-weight:600;color:var(--mg);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Registre de traitement — 4 entrées</div>
+<div style="overflow-x:auto">
+<table style="width:100%;border-collapse:collapse;font-family:var(--fb);font-size:.72rem">
+<thead><tr style="border-bottom:2px solid #e8e8ed">
+<th style="text-align:left;padding:6px 8px;color:var(--mg);font-weight:600;white-space:nowrap">Traitement</th>
+<th style="text-align:left;padding:6px 8px;color:var(--mg);font-weight:600;white-space:nowrap">Base légale</th>
+<th style="text-align:left;padding:6px 8px;color:var(--mg);font-weight:600;white-space:nowrap">Conservation</th>
+<th style="text-align:left;padding:6px 8px;color:var(--mg);font-weight:600;white-space:nowrap">Statut</th>
+</tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid #f0f0f5"><td style="padding:8px;font-weight:500;color:var(--tx)">Commandes</td><td style="padding:8px;color:var(--dg)">Contrat</td><td style="padding:8px;color:var(--dg)">10 ans</td><td style="padding:8px"><span style="background:var(--gns);color:#065F46;padding:2px 8px;border-radius:980px;font-weight:600">OK</span></td></tr>
+<tr style="border-bottom:1px solid #f0f0f5"><td style="padding:8px;font-weight:500;color:var(--tx)">Clients</td><td style="padding:8px;color:var(--dg)">Contrat</td><td style="padding:8px;color:var(--dg)">3 ans</td><td style="padding:8px"><span style="background:var(--gns);color:#065F46;padding:2px 8px;border-radius:980px;font-weight:600">OK</span></td></tr>
+<tr style="border-bottom:1px solid #f0f0f5"><td style="padding:8px;font-weight:500;color:var(--tx)">Newsletter</td><td style="padding:8px;color:var(--dg)">Consentement</td><td style="padding:8px;color:var(--dg)">3 ans</td><td style="padding:8px"><span style="background:var(--ams);color:#92400E;padding:2px 8px;border-radius:980px;font-weight:600">À revoir</span></td></tr>
+<tr><td style="padding:8px;font-weight:500;color:var(--tx)">Analytique</td><td style="padding:8px;color:var(--dg)">Intérêt légit.</td><td style="padding:8px;color:var(--dg)">13 mois</td><td style="padding:8px"><span style="background:var(--rds);color:#991B1B;padding:2px 8px;border-radius:980px;font-weight:600">Incomplet</span></td></tr>
+</tbody>
+</table>
+</div>
+</div></div></div>
+</div></div>
+</div>
+
+<!-- Panel 3: Cookies -->
+<div id="fpanel-3" class="fpanel" style="display:none">
+<div class="split"><div>
+<p class="tl">Bandeau cookies</p>
+<h2 class="th" style="margin-top:16px">Un bandeau conforme à la CNIL, prêt à copier.</h2>
+<p class="tb" style="margin-top:14px">Sans consentement cookies valide, chaque visiteur de votre boutique représente un risque CNIL. Ordo génère votre bandeau cookies conforme et son script HTML prêt à intégrer.</p>
+<div style="margin-top:24px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Conforme aux recommandations CNIL 2024</span></div>
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Consentement granulaire par catégorie</span></div>
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Script HTML à copier-coller en 1 clic</span></div>
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Compatible Shopify, WordPress, PrestaShop</span></div>
+</div>
+</div>
+<div><div class="mock"><div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div><div class="mock-body" style="padding:16px 20px">
+<div style="font-family:var(--fb);font-size:.7rem;font-weight:600;color:var(--mg);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px">Aperçu bandeau cookies</div>
+<!-- Simulated page with cookie banner -->
+<div style="position:relative;background:#f8f8fa;border-radius:10px;overflow:hidden;height:200px">
+  <div style="padding:14px;opacity:.4">
+    <div style="height:8px;background:#e0e0e5;border-radius:4px;width:60%;margin-bottom:8px"></div>
+    <div style="height:6px;background:#e8e8ed;border-radius:4px;width:90%;margin-bottom:6px"></div>
+    <div style="height:6px;background:#e8e8ed;border-radius:4px;width:75%;margin-bottom:6px"></div>
+    <div style="display:flex;gap:8px;margin-top:12px"><div style="height:60px;flex:1;background:#e8e8ed;border-radius:8px"></div><div style="height:60px;flex:1;background:#e8e8ed;border-radius:8px"></div></div>
+  </div>
+  <!-- Cookie banner overlay -->
+  <div style="position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e8e8ed;padding:14px 16px;box-shadow:0 -4px 20px rgba(0,0,0,.08)">
+    <div style="font-family:var(--fd);font-size:.78rem;font-weight:600;color:var(--tx);margin-bottom:6px">🍪 Ce site utilise des cookies</div>
+    <div style="font-family:var(--fb);font-size:.65rem;color:var(--dg);line-height:1.5;margin-bottom:10px">Nous utilisons des cookies pour analyser notre trafic et personnaliser votre expérience.</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <div style="padding:5px 12px;background:var(--i);color:#fff;border-radius:980px;font-family:var(--fb);font-size:.65rem;font-weight:600;cursor:pointer">Accepter tout</div>
+      <div style="padding:5px 12px;background:#f0f0f5;color:var(--tx);border-radius:980px;font-family:var(--fb);font-size:.65rem;font-weight:500;cursor:pointer">Refuser</div>
+      <div style="padding:5px 12px;background:#f0f0f5;color:var(--tx);border-radius:980px;font-family:var(--fb);font-size:.65rem;font-weight:500;cursor:pointer">Personnaliser</div>
+    </div>
+  </div>
+</div>
+<div style="margin-top:12px;display:flex;gap:8px">
+<div style="flex:1;padding:10px;background:var(--is);border-radius:8px;text-align:center"><div style="font-family:var(--fd);font-size:.82rem;font-weight:600;color:var(--i)">Analytique</div><div style="font-family:var(--fb);font-size:.65rem;color:var(--il);margin-top:2px">GA4 · Hotjar</div></div>
+<div style="flex:1;padding:10px;background:var(--is);border-radius:8px;text-align:center"><div style="font-family:var(--fd);font-size:.82rem;font-weight:600;color:var(--i)">Marketing</div><div style="font-family:var(--fb);font-size:.65rem;color:var(--il);margin-top:2px">Facebook Pixel</div></div>
+<div style="flex:1;padding:10px;background:#D1FAE5;border-radius:8px;text-align:center"><div style="font-family:var(--fd);font-size:.82rem;font-weight:600;color:#065F46">Score CNIL</div><div style="font-family:var(--fd);font-size:.9rem;font-weight:700;color:#10B981;margin-top:2px">100%</div></div>
+</div>
+</div></div></div>
+</div></div>
+</div>
+
+<!-- Panel 4: Score -->
+<div id="fpanel-4" class="fpanel" style="display:none">
+<div class="split-r"><div>
+<p class="tl">Score de conformité</p>
+<h2 class="th" style="margin-top:16px">Un score en temps réel qui mesure votre avancement.</h2>
+<p class="tb" style="margin-top:14px">Savoir que vous "devriez être conforme" ne suffit pas. Ordo calcule votre score RGPD précis, identifie vos manques et génère un plan d'action priorisé.</p>
+<div style="margin-top:24px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Diagnostic initial en 5 minutes</span></div>
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Score mis à jour à chaque action</span></div>
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Plan d'actions classé par priorité</span></div>
+<div style="display:flex;align-items:center;gap:10px"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="tb" style="font-size:.9rem">Certificat téléchargeable en cas de contrôle CNIL</span></div>
+</div>
+</div>
+<div><div class="mock"><div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div><div class="mock-body">
+<div style="display:flex;gap:20px;align-items:center;margin-bottom:20px">
+  <!-- Score circle -->
+  <div style="position:relative;width:90px;height:90px;flex-shrink:0">
+    <svg width="90" height="90" viewBox="0 0 90 90"><circle cx="45" cy="45" r="36" fill="none" stroke="#e8e8ed" stroke-width="7"/><circle cx="45" cy="45" r="36" fill="none" stroke="var(--i)" stroke-width="7" stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="68" transform="rotate(-90 45 45)"/></svg>
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center"><span style="font-family:var(--fd);font-size:1.3rem;font-weight:700;color:var(--tx);line-height:1">69</span><span style="font-family:var(--fb);font-size:.58rem;color:var(--mg)">/100</span></div>
+  </div>
+  <div style="flex:1">
+    <div style="font-family:var(--fd);font-size:.92rem;font-weight:600;color:var(--tx)">En bonne voie</div>
+    <div style="font-family:var(--fb);font-size:.72rem;color:var(--dg);margin-top:4px;line-height:1.4">4 actions critiques<br>restent à compléter.</div>
+    <div style="display:flex;gap:6px;margin-top:10px">
+      <span style="background:var(--gns);color:#065F46;font-family:var(--fb);font-size:.62rem;font-weight:600;padding:2px 8px;border-radius:980px">9 faits</span>
+      <span style="background:var(--ams);color:#92400E;font-family:var(--fb);font-size:.62rem;font-weight:600;padding:2px 8px;border-radius:980px">2 en cours</span>
+      <span style="background:var(--rds);color:#991B1B;font-family:var(--fb);font-size:.62rem;font-weight:600;padding:2px 8px;border-radius:980px">2 urgents</span>
+    </div>
+  </div>
+</div>
+<div style="font-family:var(--fb);font-size:.7rem;font-weight:600;color:var(--mg);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Actions prioritaires</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--rds);border-radius:8px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span style="font-family:var(--fb);font-size:.75rem;color:#991B1B;flex:1">Bandeau cookies non conforme</span><span style="font-family:var(--fb);font-size:.65rem;color:#991B1B;font-weight:600">Critique</span></div>
+<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--ams);border-radius:8px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span style="font-family:var(--fb);font-size:.75rem;color:#92400E;flex:1">DPA Shopify manquant</span><span style="font-family:var(--fb);font-size:.65rem;color:#92400E;font-weight:600">Urgent</span></div>
+<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:#f8f8fa;border-radius:8px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg><span style="font-family:var(--fb);font-size:.75rem;color:var(--dg);flex:1">Politique confidentialité générée</span><span style="font-family:var(--fb);font-size:.65rem;color:#10B981;font-weight:600">Fait ✓</span></div>
+</div>
+</div></div></div>
+</div></div>
+</div>
+
+</div><!-- /fpanels -->
+</div></section>
 
 <!-- REASSURANCE -->
 <section class="s sw"><div class="cm"><div class="sg" style="text-align:center">
@@ -221,6 +366,7 @@
 
 <script>
 const o=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&e.target.classList.add('v')})},{threshold:.1});document.querySelectorAll('.r').forEach(e=>o.observe(e));
+function switchTab(n){for(let i=0;i<5;i++){const tb=document.getElementById('ftab-'+i),pn=document.getElementById('fpanel-'+i);if(i===n){tb.classList.add('ftab-active');pn.style.display='block'}else{tb.classList.remove('ftab-active');pn.style.display='none'}}}
 const faqs=[{q:"Le RGPD concerne-t-il vraiment les boutiques en ligne ?",a:"Oui, absolument. Chaque commande collecte des données personnelles (nom, adresse, email, paiement). Le RGPD s'applique dès la première."},{q:"Ça fonctionne avec ma plateforme (Shopify, WooCommerce…) ?",a:"Oui. Ordo est compatible avec toutes les plateformes e-commerce : Shopify, WooCommerce, PrestaShop, Magento, Wix, Squarespace, Etsy."},{q:"Combien de temps faut-il pour être conforme ?",a:"Environ 15 minutes. Vous décrivez votre boutique, Ordo génère tout. Vous copiez-collez sur votre site."},{q:"Vos documents sont-ils juridiquement valides ?",a:"Oui. Rédigés et validés par des avocats spécialisés en droit du numérique, mis à jour à chaque évolution réglementaire."},{q:"Que risque-t-on si on n'est pas conforme ?",a:"Une amende jusqu'à 20 000€ en procédure simplifiée CNIL. Sans compter les plaintes clients et la perte de confiance."},{q:"C'est quoi la différence avec un avocat ou Leto ?",a:"Un avocat coûte 500-2000€ pour des documents statiques. Leto coûte 200€+/mois et vise les grandes entreprises. Ordo coûte 29€/mois et fait tout automatiquement pour les e-commerçants."}];
 const fl=document.getElementById('faq-list');faqs.forEach((f,i)=>{const d=document.createElement('div');d.className='r';d.style.cssText='border-bottom:1px solid #e8e8ed;cursor:pointer;padding:20px 0';d.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><div style="font-family:var(--fb);font-size:1rem;font-weight:500;color:var(--tx)">${f.q}</div><div id="fi-${i}" style="font-size:1.3rem;color:var(--mg);transition:transform .3s;flex-shrink:0;margin-left:16px">+</div></div><div id="fa-${i}" style="max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1)"><p class="tb" style="font-size:.92rem;padding-top:12px">${f.a}</p></div>`;d.onclick=()=>{const a=document.getElementById('fa-'+i),ic=document.getElementById('fi-'+i);if(!a.style.maxHeight||a.style.maxHeight==='0px'){a.style.maxHeight='200px';ic.style.transform='rotate(45deg)'}else{a.style.maxHeight='0px';ic.style.transform='rotate(0)'}};d.onmouseover=()=>d.style.opacity='.7';d.onmouseout=()=>d.style.opacity='1';fl.appendChild(d)});
 async function sub(e,id){e.preventDefault();const ei=document.getElementById(id+'-email'),fc=document.getElementById(id+'-form'),sc=document.getElementById(id+'-success'),ec=document.getElementById(id+'-error'),bt=document.getElementById(id+'-btn'),em=ei.value.trim();if(!em)return;bt.textContent='...';bt.style.opacity='.6';bt.disabled=true;ec.style.display='none';try{const r=await fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})});const d=await r.json();if(d.success){fc.style.display='none';sc.style.display='flex'}else throw new Error(d.error||'Erreur')}catch(err){bt.textContent='Rejoindre';bt.style.opacity='1';bt.disabled=false;ec.textContent='Une erreur est survenue. Réessayez.';ec.style.display='block'}}
