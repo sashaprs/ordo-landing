@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ordo — Tableau de bord</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='none' stroke='%232D3A8C' stroke-width='8'/><path d='M35 52 L45 62 L67 38' fill='none' stroke='%2386C5A3' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{--i:#2D3A8C;--id:#1E2A6E;--il:#4F5DB3;--is:#E8EAF6;--ig:#6C7BF0;--w:#FFF;--cr:#FAFAF8;--wg:#F5F4F0;--mg:#8E8E93;--dg:#6E6E73;--nv:#12152B;--nv2:#1a1f38;--tx:#1d1d1f;--gn:#10B981;--gns:#D1FAE5;--am:#F59E0B;--ams:#FEF3C7;--rd:#EF4444;--rds:#FEE2E2;--fd:'Outfit',sans-serif;--fb:'DM Sans',sans-serif;--sb:240px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:var(--fb);color:var(--tx);background:var(--cr);-webkit-font-smoothing:antialiased}
+
+/* ─── LOGIN ─────────────────────────────────────── */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--cr);padding:24px;position:relative;overflow:hidden}
+.login-wrap::before{content:'';position:absolute;top:-200px;right:-200px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(45,58,140,.06) 0%,transparent 70%);pointer-events:none}
+.login-wrap::after{content:'';position:absolute;bottom:-150px;left:-150px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(134,197,163,.08) 0%,transparent 70%);pointer-events:none}
+.login-card{background:var(--w);border-radius:20px;border:1px solid #e8e8ed;padding:48px 40px;width:100%;max-width:420px;box-shadow:0 8px 48px rgba(0,0,0,.07);position:relative;z-index:1}
+.login-logo{font-family:var(--fd);font-size:1.8rem;font-weight:700;letter-spacing:-.03em;color:var(--i);display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.login-logo-dot{color:#86C5A3}
+.login-title{font-family:var(--fd);font-size:1.4rem;font-weight:600;color:var(--tx);margin-bottom:6px}
+.login-sub{font-family:var(--fb);font-size:.88rem;color:var(--dg);margin-bottom:32px}
+.field{margin-bottom:18px}
+.field label{display:block;font-family:var(--fb);font-size:.82rem;font-weight:500;color:var(--tx);margin-bottom:7px}
+.field input{width:100%;padding:12px 16px;border:1px solid #d2d2d7;border-radius:12px;font-family:var(--fb);font-size:.92rem;color:var(--tx);background:var(--w);outline:none;transition:border-color .2s,box-shadow .2s}
+.field input:focus{border-color:var(--i);box-shadow:0 0 0 3px rgba(45,58,140,.08)}
+.field-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.field-link{font-family:var(--fb);font-size:.78rem;color:var(--i);text-decoration:none;cursor:pointer}
+.field-link:hover{text-decoration:underline}
+.btn-full{width:100%;padding:14px;border-radius:980px;font-family:var(--fb);font-size:.92rem;font-weight:500;background:var(--i);color:#fff;border:none;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);margin-top:4px}
+.btn-full:hover{background:var(--id);transform:scale(1.01)}
+.login-divider{display:flex;align-items:center;gap:12px;margin:20px 0;font-family:var(--fb);font-size:.78rem;color:var(--mg)}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:#e8e8ed}
+.login-proof{margin-top:24px;padding-top:20px;border-top:1px solid #e8e8ed;text-align:center;font-family:var(--fb);font-size:.78rem;color:var(--mg)}
+.login-proof strong{color:var(--tx)}
+.login-back{text-align:center;margin-top:16px;font-family:var(--fb);font-size:.78rem;color:var(--dg)}
+.login-back a{color:var(--i);text-decoration:none}
+.demo-hint{background:var(--is);border-radius:10px;padding:12px 14px;margin-bottom:20px;font-family:var(--fb);font-size:.78rem;color:var(--il);line-height:1.5}
+.demo-hint strong{color:var(--i)}
+
+/* ─── APP SHELL ──────────────────────────────────── */
+.app{display:flex;height:100vh;overflow:hidden}
+
+/* ─── SIDEBAR ────────────────────────────────────── */
+.sidebar{width:var(--sb);min-width:var(--sb);background:var(--nv);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden}
+.sb-logo{padding:22px 20px 16px;display:flex;align-items:center;gap:8px}
+.sb-logo-text{font-family:var(--fd);font-size:1.35rem;font-weight:700;letter-spacing:-.03em;color:#fff}
+.sb-logo-dot{color:#86C5A3}
+.sb-score-card{margin:0 12px 8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px 16px 14px}
+.sb-score-label{font-family:var(--fb);font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#4A4E6A;margin-bottom:12px}
+.sb-score-row{display:flex;align-items:center;gap:12px}
+.sb-score-num{font-family:var(--fd);font-size:2rem;font-weight:700;color:#fff;line-height:1}
+.sb-score-right{flex:1}
+.sb-score-label2{font-family:var(--fb);font-size:.75rem;color:#86C5A3;font-weight:500;margin-bottom:6px}
+.sb-prog{height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+.sb-prog-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--i) 0%,#86C5A3 100%);transition:width 1s ease}
+.sb-prog-fill-am{background:linear-gradient(90deg,#F59E0B 0%,#FCD34D 100%)}
+.sb-section-label{font-family:var(--fb);font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#3A3F5C;padding:14px 20px 6px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 12px;margin:1px 8px;border-radius:10px;cursor:pointer;transition:all .18s;text-decoration:none;border:none;background:transparent;width:calc(100% - 16px);text-align:left}
+.sb-item:hover{background:rgba(255,255,255,.06)}
+.sb-item.active{background:rgba(255,255,255,.1)}
+.sb-item-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-item-text{font-family:var(--fb);font-size:.85rem;color:#8A8EA8;font-weight:400}
+.sb-item.active .sb-item-text{color:#fff;font-weight:500}
+.sb-badge{font-family:var(--fb);font-size:.62rem;font-weight:600;padding:2px 7px;border-radius:980px;background:rgba(108,123,240,.2);color:#8B99F0;margin-left:auto;flex-shrink:0}
+.sb-badge-rd{background:rgba(239,68,68,.2);color:#F87171}
+.sb-bottom{margin-top:auto;padding:16px 12px 20px;border-top:1px solid rgba(255,255,255,.06)}
+.sb-plan-row{display:flex;align-items:center;gap:8px;padding:10px 10px;background:rgba(255,255,255,.04);border-radius:10px;margin-bottom:10px}
+.sb-plan-badge{font-family:var(--fd);font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:980px;background:linear-gradient(135deg,var(--i),#6C7BF0);color:#fff;letter-spacing:.03em}
+.sb-plan-text{font-family:var(--fb);font-size:.78rem;color:#6A6E88;flex:1}
+.sb-plan-upgrade{font-family:var(--fb);font-size:.7rem;color:#8B99F0;cursor:pointer;text-decoration:none}
+.sb-plan-upgrade:hover{color:#fff}
+.sb-user{display:flex;align-items:center;gap:10px;padding:4px 2px}
+.sb-avatar{width:30px;height:30px;border-radius:50%;background:var(--is);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.78rem;font-weight:700;color:var(--i);flex-shrink:0}
+.sb-user-name{font-family:var(--fb);font-size:.82rem;color:#C0C4D8;font-weight:500}
+.sb-user-plan{font-family:var(--fb);font-size:.7rem;color:#4A4E6A}
+.sb-logout{margin-left:auto;cursor:pointer;opacity:.4;transition:opacity .2s;background:none;border:none;padding:4px}
+.sb-logout:hover{opacity:.8}
+
+/* ─── MAIN CONTENT ───────────────────────────────── */
+.main{flex:1;overflow-y:auto;background:var(--cr)}
+.topbar{height:56px;background:rgba(250,250,248,.95);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid #e8e8ed;padding:0 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.topbar-title{font-family:var(--fd);font-size:1rem;font-weight:600;color:var(--tx)}
+.topbar-breadcrumb{font-family:var(--fb);font-size:.82rem;color:var(--mg)}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.tb-icon-btn{width:34px;height:34px;border-radius:9px;background:var(--w);border:1px solid #e8e8ed;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;position:relative}
+.tb-icon-btn:hover{background:var(--is);border-color:var(--i)}
+.notif-pip{position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--rd);border:1.5px solid var(--cr)}
+.sec{padding:28px;display:none}
+.sec.active{display:block}
+
+/* ─── KPI CARDS ──────────────────────────────────── */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.kpi{background:var(--w);border-radius:14px;border:1px solid #e8e8ed;padding:18px 20px;transition:all .3s cubic-bezier(.16,1,.3,1)}
+.kpi:hover{border-color:rgba(45,58,140,.2);box-shadow:0 4px 16px rgba(45,58,140,.06)}
+.kpi-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.kpi-label{font-family:var(--fb);font-size:.68rem;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--mg);margin-bottom:6px}
+.kpi-val{font-family:var(--fd);font-size:1.9rem;font-weight:700;letter-spacing:-.025em;line-height:1;color:var(--tx)}
+.kpi-sub{font-family:var(--fb);font-size:.75rem;color:var(--dg);margin-top:5px;display:flex;align-items:center;gap:4px}
+.kpi-up{color:var(--gn);font-weight:600}
+.kpi-dn{color:var(--rd);font-weight:600}
+
+/* ─── COMPLIANCE SCORE HERO ──────────────────────── */
+.score-banner{background:linear-gradient(135deg,var(--nv) 0%,#1a2060 100%);border-radius:16px;padding:28px 32px;margin-bottom:24px;display:flex;align-items:center;gap:32px;overflow:hidden;position:relative}
+.score-banner::after{content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(108,123,240,.08);pointer-events:none}
+.score-circle-wrap{position:relative;flex-shrink:0;width:96px;height:96px}
+.score-svg{transform:rotate(-90deg)}
+.score-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.score-pct{font-family:var(--fd);font-size:1.5rem;font-weight:700;color:#fff;line-height:1}
+.score-unit{font-family:var(--fb);font-size:.6rem;color:#8A8EA8}
+.score-text{flex:1}
+.score-title{font-family:var(--fd);font-size:1.15rem;font-weight:600;color:#fff;margin-bottom:6px}
+.score-desc{font-family:var(--fb);font-size:.85rem;color:#8A8EA8;line-height:1.55;margin-bottom:16px;max-width:360px}
+.score-pills{display:flex;gap:8px;flex-wrap:wrap}
+.score-pill{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:980px;font-family:var(--fb);font-size:.75rem;font-weight:600;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:#B4B8D8}
+.score-pill-dot{width:6px;height:6px;border-radius:50%}
+
+/* ─── ROADMAP TABLE ──────────────────────────────── */
+.roadmap-card{background:var(--w);border-radius:16px;border:1px solid #e8e8ed;overflow:hidden}
+.roadmap-head{padding:18px 24px;border-bottom:1px solid #f0f0f5;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.roadmap-head-left{display:flex;align-items:center;gap:12px}
+.roadmap-head-title{font-family:var(--fd);font-size:1rem;font-weight:600;color:var(--tx)}
+.roadmap-progress{font-family:var(--fb);font-size:.78rem;color:var(--mg)}
+.filter-tabs{display:flex;gap:3px;background:#f5f4f0;border-radius:9px;padding:3px}
+.ftab{font-family:var(--fb);font-size:.78rem;padding:6px 13px;border-radius:6px;cursor:pointer;border:none;background:transparent;color:var(--mg);transition:all .18s;font-weight:500}
+.ftab.active{background:var(--w);color:var(--tx);box-shadow:0 1px 4px rgba(0,0,0,.08);font-weight:600}
+.roadmap-table{width:100%;border-collapse:collapse}
+.rt-th{font-family:var(--fb);font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mg);padding:9px 16px;text-align:left;border-bottom:1px solid #f3f3f5;background:#fcfcfc;white-space:nowrap}
+.rt-th:first-child{padding-left:22px;width:40px}
+.rt-row{border-bottom:1px solid #f6f6f8;transition:background .12s;cursor:pointer}
+.rt-row:hover{background:#fafafa}
+.rt-row:last-child{border:none}
+.rt-td{padding:13px 16px;font-family:var(--fb);font-size:.87rem;color:var(--tx);vertical-align:middle}
+.rt-td:first-child{padding-left:22px;width:44px}
+.rt-check{width:20px;height:20px;border-radius:6px;border:1.5px solid #d2d2d7;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .2s;background:#fff}
+.rt-check.checked{background:var(--gn);border-color:var(--gn)}
+.task-name-cell{font-weight:500}
+.task-done .task-name-cell{color:var(--mg);text-decoration:line-through;font-weight:400}
+.cat-tag{display:inline-block;padding:3px 9px;border-radius:980px;font-family:var(--fb);font-size:.68rem;font-weight:600;white-space:nowrap}
+.cat-docs{background:#EEF0FC;color:var(--i)}
+.cat-cookies{background:#FFF7E6;color:#92400E}
+.cat-traitants{background:#ECFDF5;color:#065F46}
+.cat-processus{background:#F5F3FF;color:#5B21B6}
+.cat-formation{background:#FDF2F8;color:#9D174D}
+.cat-registre{background:#F0F9FF;color:#0369A1}
+.priority-crit{color:var(--rd);font-weight:600;font-size:.75rem;font-family:var(--fb)}
+.priority-high{color:var(--am);font-weight:600;font-size:.75rem;font-family:var(--fb)}
+.priority-med{color:var(--mg);font-weight:500;font-size:.75rem;font-family:var(--fb)}
+.sbadge{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:980px;font-family:var(--fb);font-size:.73rem;font-weight:600;white-space:nowrap}
+.sbadge-dot{width:5px;height:5px;border-radius:50%}
+.sbadge-done{background:var(--gns);color:#065F46}
+.sbadge-done .sbadge-dot{background:#059669}
+.sbadge-ip{background:var(--ams);color:#92400E}
+.sbadge-ip .sbadge-dot{background:#F59E0B}
+.sbadge-todo{background:#F1F1F5;color:var(--mg)}
+.sbadge-todo .sbadge-dot{background:#d2d2d7}
+.sbadge-alert{background:var(--rds);color:#991B1B}
+.sbadge-alert .sbadge-dot{background:var(--rd)}
+.btn-sm{font-family:var(--fb);font-size:.76rem;font-weight:500;padding:6px 13px;border-radius:980px;border:1px solid var(--is);background:var(--is);color:var(--i);cursor:pointer;transition:all .18s;white-space:nowrap}
+.btn-sm:hover{background:var(--i);color:#fff;border-color:var(--i)}
+.btn-sm-ghost{background:var(--w);border:1px solid #e8e8ed;color:var(--mg)}
+.btn-sm-ghost:hover{background:var(--wg);color:var(--tx);border-color:#d2d2d7}
+.rt-actions{display:flex;gap:6px;align-items:center}
+
+/* ─── SIDE COLUMN ────────────────────────────────── */
+.dash-grid{display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start}
+.dash-main{min-width:0}
+.dash-side{display:flex;flex-direction:column;gap:16px}
+.side-card{background:var(--w);border-radius:14px;border:1px solid #e8e8ed;padding:20px}
+.side-card-title{font-family:var(--fd);font-size:.9rem;font-weight:600;color:var(--tx);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.side-card-link{font-family:var(--fb);font-size:.75rem;color:var(--i);cursor:pointer;text-decoration:none;font-weight:500}
+.side-card-link:hover{text-decoration:underline}
+.doc-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f5f5f8}
+.doc-item:last-child{border:none;padding-bottom:0}
+.doc-item-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.doc-item-name{font-family:var(--fb);font-size:.82rem;font-weight:500;color:var(--tx);flex:1}
+.doc-item-date{font-family:var(--fb);font-size:.68rem;color:var(--mg)}
+.alert-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #f5f5f8}
+.alert-item:last-child{border:none;padding-bottom:0}
+.alert-item-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.alert-item-text{font-family:var(--fb);font-size:.8rem;color:var(--tx);line-height:1.45;flex:1}
+.alert-item-sub{font-family:var(--fb);font-size:.7rem;color:var(--mg);margin-top:2px}
+
+/* ─── SECTION HEADER ─────────────────────────────── */
+.sec-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.sec-header-left{}
+.sec-title{font-family:var(--fd);font-size:1.4rem;font-weight:700;color:var(--tx);letter-spacing:-.025em}
+.sec-sub{font-family:var(--fb);font-size:.85rem;color:var(--dg);margin-top:4px}
+.btn-primary{display:inline-flex;align-items:center;gap:7px;font-family:var(--fb);font-size:.85rem;font-weight:500;padding:10px 20px;border-radius:980px;background:var(--i);color:#fff;border:none;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1)}
+.btn-primary:hover{background:var(--id);transform:scale(1.02)}
+.btn-secondary{display:inline-flex;align-items:center;gap:7px;font-family:var(--fb);font-size:.85rem;font-weight:500;padding:10px 20px;border-radius:980px;background:var(--w);color:var(--i);border:1px solid var(--is);cursor:pointer;transition:all .2s}
+.btn-secondary:hover{background:var(--is)}
+
+/* ─── DOCUMENTS PAGE ─────────────────────────────── */
+.doc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.doc-card{background:var(--w);border-radius:14px;border:1px solid #e8e8ed;padding:22px;transition:all .3s cubic-bezier(.16,1,.3,1);cursor:pointer}
+.doc-card:hover{border-color:rgba(45,58,140,.25);box-shadow:0 6px 20px rgba(45,58,140,.08);transform:translateY(-2px)}
+.doc-card-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.doc-card-name{font-family:var(--fd);font-size:.95rem;font-weight:600;color:var(--tx);margin-bottom:5px}
+.doc-card-desc{font-family:var(--fb);font-size:.8rem;color:var(--dg);margin-bottom:16px;line-height:1.5}
+.doc-card-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.doc-card-date{font-family:var(--fb);font-size:.7rem;color:var(--mg)}
+.doc-actions{display:flex;gap:6px}
+.icon-btn-sm{width:28px;height:28px;border-radius:7px;border:1px solid #e8e8ed;background:var(--w);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .18s}
+.icon-btn-sm:hover{background:var(--is);border-color:var(--i)}
+
+/* ─── SOUS-TRAITANTS ─────────────────────────────── */
+.vendor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.vendor-card{background:var(--w);border-radius:14px;border:1px solid #e8e8ed;padding:20px;transition:all .2s}
+.vendor-card:hover{border-color:#c8c8d2;box-shadow:0 4px 12px rgba(0,0,0,.05)}
+.vendor-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.vendor-logo{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:700;font-size:.95rem;flex-shrink:0}
+.vendor-name{font-family:var(--fd);font-size:.95rem;font-weight:600;color:var(--tx)}
+.vendor-type{font-family:var(--fb);font-size:.75rem;color:var(--dg)}
+.vendor-data-row{display:flex;justify-content:space-between;align-items:center;font-family:var(--fb);font-size:.78rem;padding:5px 0;border-bottom:1px solid #f6f6f8;color:var(--dg)}
+.vendor-data-row:last-of-type{border:none}
+.vendor-data-val{font-weight:500;color:var(--tx)}
+.vendor-footer{margin-top:14px;padding-top:12px;border-top:1px solid #f0f0f5;display:flex;justify-content:space-between;align-items:center}
+
+/* ─── REGISTRE TABLE ─────────────────────────────── */
+.registre-table-wrap{background:var(--w);border-radius:14px;border:1px solid #e8e8ed;overflow:hidden}
+.reg-table{width:100%;border-collapse:collapse}
+.reg-th{font-family:var(--fb);font-size:.66rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mg);padding:11px 16px;text-align:left;border-bottom:1px solid #f3f3f5;background:#fcfcfc;white-space:nowrap}
+.reg-row{border-bottom:1px solid #f6f6f8;transition:background .12s}
+.reg-row:hover{background:#fafafa}
+.reg-row:last-child{border:none}
+.reg-td{padding:13px 16px;font-family:var(--fb);font-size:.82rem;color:var(--tx);vertical-align:top;line-height:1.5}
+.reg-td-name{font-weight:500}
+.base-tag{display:inline-block;padding:2px 8px;border-radius:980px;font-family:var(--fb);font-size:.68rem;font-weight:600;white-space:nowrap}
+.base-contrat{background:#EEF0FC;color:var(--i)}
+.base-consent{background:var(--gns);color:#065F46}
+.base-legitime{background:#FDF2F8;color:#9D174D}
+
+/* ─── FORMATIONS ─────────────────────────────────── */
+.formation-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.formation-card{background:var(--w);border-radius:14px;border:1px solid #e8e8ed;padding:24px;transition:all .2s}
+.formation-card:hover{border-color:#c8c8d2}
+.formation-num{font-family:var(--fd);font-size:2rem;font-weight:700;color:var(--is);line-height:1;margin-bottom:12px}
+.formation-title{font-family:var(--fd);font-size:.95rem;font-weight:600;color:var(--tx);margin-bottom:6px}
+.formation-desc{font-family:var(--fb);font-size:.8rem;color:var(--dg);margin-bottom:16px;line-height:1.5}
+.formation-prog{height:4px;background:#e8e8ed;border-radius:2px;margin-bottom:8px;overflow:hidden}
+.formation-prog-fill{height:100%;border-radius:2px;background:var(--i);transition:width .5s ease}
+.formation-meta{font-family:var(--fb);font-size:.72rem;color:var(--mg);display:flex;justify-content:space-between;align-items:center}
+
+/* ─── COMPTE PAGE ────────────────────────────────── */
+.account-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.account-card{background:var(--w);border-radius:16px;border:1px solid #e8e8ed;padding:28px}
+.account-card-title{font-family:var(--fd);font-size:1rem;font-weight:600;color:var(--tx);margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #f0f0f5}
+.account-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #f6f6f8;font-family:var(--fb);font-size:.86rem}
+.account-row:last-child{border:none}
+.account-label{color:var(--mg)}
+.account-value{color:var(--tx);font-weight:500}
+.plan-badge-big{display:inline-block;padding:5px 14px;border-radius:980px;background:var(--is);color:var(--i);font-family:var(--fd);font-size:.8rem;font-weight:700;letter-spacing:.02em}
+.account-form .form-group{margin-bottom:16px}
+.account-form .form-label{display:block;font-family:var(--fb);font-size:.8rem;font-weight:500;color:var(--tx);margin-bottom:6px}
+.account-form .form-input{width:100%;padding:10px 13px;border:1px solid #d2d2d7;border-radius:9px;font-family:var(--fb);font-size:.88rem;color:var(--tx);background:var(--w);outline:none;transition:border-color .2s}
+.account-form .form-input:focus{border-color:var(--i)}
+
+/* ─── MODAL ──────────────────────────────────────── */
+.modal-overlay{position:fixed;inset:0;background:rgba(18,21,43,.65);backdrop-filter:blur(8px);z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-box{background:var(--w);border-radius:20px;width:100%;max-width:560px;max-height:88vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,.22);transform:translateY(24px);transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.modal-overlay.open .modal-box{transform:translateY(0)}
+.modal-header{padding:22px 26px 18px;border-bottom:1px solid #f0f0f5;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--w);border-radius:20px 20px 0 0;z-index:1}
+.modal-title{font-family:var(--fd);font-size:1.05rem;font-weight:600;color:var(--tx)}
+.modal-close{width:28px;height:28px;border-radius:8px;border:none;background:var(--wg);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--mg);font-size:1rem;transition:all .2s}
+.modal-close:hover{background:#e8e8ed;color:var(--tx)}
+.modal-steps{display:flex;gap:0;padding:0 26px;border-bottom:1px solid #f0f0f5}
+.mstep{font-family:var(--fb);font-size:.78rem;font-weight:500;padding:12px 14px;color:var(--mg);border-bottom:2px solid transparent;margin-bottom:-1px;cursor:default;transition:all .2s;white-space:nowrap}
+.mstep.active{color:var(--i);border-bottom-color:var(--i);font-weight:600}
+.mstep.done{color:var(--gn)}
+.modal-body{padding:22px 26px}
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-family:var(--fb);font-size:.8rem;font-weight:500;color:var(--tx);margin-bottom:6px}
+.form-input{width:100%;padding:11px 13px;border:1px solid #d2d2d7;border-radius:9px;font-family:var(--fb);font-size:.88rem;color:var(--tx);background:var(--w);outline:none;transition:border-color .2s}
+.form-input:focus{border-color:var(--i)}
+.form-select{width:100%;padding:11px 13px;border:1px solid #d2d2d7;border-radius:9px;font-family:var(--fb);font-size:.88rem;color:var(--tx);background:var(--w);outline:none;cursor:pointer;appearance:none}
+.form-select:focus{border-color:var(--i)}
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.check-item{display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid #e8e8ed;border-radius:9px;cursor:pointer;transition:all .18s;font-family:var(--fb);font-size:.8rem;color:var(--tx)}
+.check-item:hover{border-color:var(--i);background:var(--is)}
+.check-item input{accent-color:var(--i);width:14px;height:14px}
+.modal-footer{padding:16px 26px 22px;border-top:1px solid #f0f0f5;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.btn-modal-next{font-family:var(--fb);font-size:.88rem;font-weight:500;padding:11px 24px;border-radius:980px;background:var(--i);color:#fff;border:none;cursor:pointer;transition:all .3s}
+.btn-modal-next:hover{background:var(--id)}
+.btn-modal-next:disabled{background:#ccc;cursor:not-allowed;transform:none}
+.btn-modal-back{font-family:var(--fb);font-size:.88rem;font-weight:500;padding:11px 22px;border-radius:980px;background:transparent;color:var(--mg);border:1px solid #e8e8ed;cursor:pointer;transition:all .18s}
+.btn-modal-back:hover{border-color:var(--i);color:var(--i)}
+.generate-state{text-align:center;padding:28px 0}
+.loading-ring{width:52px;height:52px;border:3px solid var(--is);border-top-color:var(--i);border-radius:50%;animation:spin 0.9s linear infinite;margin:0 auto 18px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.generate-title{font-family:var(--fd);font-size:1.1rem;font-weight:600;color:var(--tx);margin-bottom:8px}
+.generate-sub{font-family:var(--fb);font-size:.85rem;color:var(--dg)}
+.doc-preview-box{background:#f7f7fa;border-radius:12px;padding:20px;font-family:var(--fb);font-size:.8rem;color:var(--tx);line-height:1.7;max-height:220px;overflow-y:auto;border:1px solid #e8e8ed;margin-top:16px}
+.doc-preview-box h3{font-family:var(--fd);font-size:.95rem;font-weight:600;margin-bottom:10px;color:var(--tx)}
+.doc-preview-box p{margin-bottom:8px;color:var(--dg)}
+.doc-preview-box strong{color:var(--tx);font-weight:600}
+.copy-success{display:none;color:var(--gn);font-family:var(--fb);font-size:.78rem;font-weight:500;align-items:center;gap:5px}
+
+/* ─── RESPONSIVE ─────────────────────────────────── */
+@media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.dash-grid{grid-template-columns:1fr}.doc-grid{grid-template-columns:repeat(2,1fr)}.vendor-grid{grid-template-columns:repeat(2,1fr)}.formation-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.sidebar{display:none}.kpi-grid{grid-template-columns:1fr 1fr}.account-grid{grid-template-columns:1fr}.vendor-grid{grid-template-columns:1fr}.formation-grid{grid-template-columns:1fr}.doc-grid{grid-template-columns:1fr}.sec{padding:20px}.topbar{padding:0 16px}.score-banner{flex-direction:column;gap:16px}.dash-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     LOGIN VIEW
+════════════════════════════════════════════════ -->
+<div id="login-view">
+<div class="login-wrap">
+<div class="login-card">
+  <div class="login-logo">Ordo<span class="login-logo-dot">.</span></div>
+  <div class="login-title">Bon retour.</div>
+  <p class="login-sub">Connectez-vous à votre espace conformité.</p>
+
+  <div class="demo-hint">
+    <strong>Mode démo</strong> — entrez n'importe quelle adresse email et mot de passe pour accéder au tableau de bord.
+  </div>
+
+  <div class="field">
+    <label>Adresse email</label>
+    <input type="email" id="login-email" placeholder="vous@votreboutique.fr" value="contact@maboutique.fr">
+  </div>
+  <div class="field">
+    <div class="field-row">
+      <label style="margin-bottom:0">Mot de passe</label>
+      <a class="field-link" href="#">Mot de passe oublié ?</a>
+    </div>
+    <input type="password" id="login-pwd" placeholder="••••••••" value="demo1234">
+  </div>
+  <button class="btn-full" onclick="doLogin()">Se connecter</button>
+  <div class="login-divider">ou</div>
+  <div class="login-proof">Rejoignez <strong>847 boutiques</strong> déjà conformes au RGPD.</div>
+  <div class="login-back" style="margin-top:18px"><a href="index.html">← Retour à l'accueil</a></div>
+</div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     APP VIEW
+════════════════════════════════════════════════ -->
+<div id="app-view" style="display:none" class="app">
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="11" stroke="#fff" stroke-width="2.5"/><path d="M8 13.5 L11 16.5 L18 9.5" stroke="#86C5A3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="sb-logo-text">Ordo<span class="sb-logo-dot">.</span></span>
+  </div>
+
+  <div class="sb-score-card">
+    <div class="sb-score-label">Conformité globale</div>
+    <div class="sb-score-row">
+      <div class="sb-score-num">67%</div>
+      <div class="sb-score-right">
+        <div class="sb-score-label2">En progression</div>
+        <div class="sb-prog"><div class="sb-prog-fill" style="width:67%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sb-section-label">Principale</div>
+  <button class="sb-item active" onclick="showSec('dashboard',this)">
+    <div class="sb-item-icon"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#8A8EA8" stroke-width="1.8"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5"/></svg></div>
+    <span class="sb-item-text">Tableau de bord</span>
+  </button>
+  <button class="sb-item" onclick="showSec('documents',this)">
+    <div class="sb-item-icon"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#8A8EA8" stroke-width="1.8"><path d="M11 2H5a1 1 0 00-1 1v14a1 1 0 001 1h10a1 1 0 001-1V7z"/><polyline points="11,2 11,7 16,7"/></svg></div>
+    <span class="sb-item-text">Documents</span>
+    <span class="sb-badge">6</span>
+  </button>
+  <button class="sb-item" onclick="showSec('traitants',this)">
+    <div class="sb-item-icon"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#8A8EA8" stroke-width="1.8"><circle cx="10" cy="7" r="3"/><path d="M4 17c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg></div>
+    <span class="sb-item-text">Sous-traitants</span>
+    <span class="sb-badge sb-badge-rd">1</span>
+  </button>
+  <button class="sb-item" onclick="showSec('registre',this)">
+    <div class="sb-item-icon"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#8A8EA8" stroke-width="1.8"><rect x="3" y="3" width="14" height="14" rx="1.5"/><line x1="3" y1="8" x2="17" y2="8"/><line x1="7" y1="8" x2="7" y2="17"/></svg></div>
+    <span class="sb-item-text">Registre</span>
+  </button>
+  <button class="sb-item" onclick="showSec('formations',this)">
+    <div class="sb-item-icon"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#8A8EA8" stroke-width="1.8"><path d="M2 7l8-4 8 4-8 4z"/><path d="M10 11v5"/><path d="M5 9.5v4.5a5 5 0 0010 0V9.5"/></svg></div>
+    <span class="sb-item-text">Formations</span>
+  </button>
+
+  <div class="sb-section-label">Compte</div>
+  <button class="sb-item" onclick="showSec('compte',this)">
+    <div class="sb-item-icon"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#8A8EA8" stroke-width="1.8"><circle cx="10" cy="8" r="3"/><path d="M3 18c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg></div>
+    <span class="sb-item-text">Mon compte</span>
+  </button>
+  <button class="sb-item">
+    <div class="sb-item-icon"><svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#8A8EA8" stroke-width="1.8"><circle cx="10" cy="10" r="3"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></svg></div>
+    <span class="sb-item-text">Paramètres</span>
+  </button>
+
+  <div class="sb-bottom">
+    <div class="sb-plan-row">
+      <span class="sb-plan-badge">Essentiel</span>
+      <span class="sb-plan-text">29€/mois</span>
+      <a class="sb-plan-upgrade" href="#" onclick="showSec('compte',null);return false">Passer Pro →</a>
+    </div>
+    <div class="sb-user">
+      <div class="sb-avatar">ML</div>
+      <div>
+        <div class="sb-user-name">Marie Laurent</div>
+        <div class="sb-user-plan">contact@maboutique.fr</div>
+      </div>
+      <button class="sb-logout" onclick="doLogout()" title="Se déconnecter">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#8A8EA8" stroke-width="1.8"><path d="M13 3h4a1 1 0 011 1v12a1 1 0 01-1 1h-4"/><polyline points="9,15 13,10 9,5"/><line x1="13" y1="10" x2="3" y2="10"/></svg>
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<div class="main" id="main-scroll">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-title" id="topbar-title">Tableau de bord</div>
+    </div>
+    <div class="topbar-right">
+      <div class="tb-icon-btn notif-pip" title="Alertes légales">
+        <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="var(--tx)" stroke-width="1.8"><path d="M10 2a6 6 0 00-6 6c0 5-2.5 6-2.5 6h17s-2.5-1-2.5-6a6 6 0 00-6-6z"/><path d="M11.7 17a2 2 0 01-3.4 0"/></svg>
+      </div>
+      <div class="tb-icon-btn" title="Aide">
+        <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="var(--tx)" stroke-width="1.8"><circle cx="10" cy="10" r="8"/><path d="M7.5 7.5a2.5 2.5 0 015 .8c0 1.7-2.5 2.2-2.5 4"/><circle cx="10" cy="15.5" r=".5" fill="var(--tx)"/></svg>
+      </div>
+      <div style="width:30px;height:30px;border-radius:50%;background:var(--is);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.75rem;font-weight:700;color:var(--i);cursor:pointer">ML</div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION: DASHBOARD ══ -->
+  <div id="sec-dashboard" class="sec active">
+
+    <!-- Score banner -->
+    <div class="score-banner">
+      <div class="score-circle-wrap">
+        <svg class="score-svg" width="96" height="96" viewBox="0 0 96 96">
+          <defs><linearGradient id="sg1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#2D3A8C"/><stop offset="100%" stop-color="#86C5A3"/></linearGradient></defs>
+          <circle cx="48" cy="48" r="38" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="7"/>
+          <circle cx="48" cy="48" r="38" fill="none" stroke="url(#sg1)" stroke-width="7" stroke-linecap="round" stroke-dasharray="0 238.8" stroke-dashoffset="0" id="score-arc" style="transition:stroke-dasharray 1.2s ease"/>
+        </svg>
+        <div class="score-inner">
+          <span class="score-pct">67%</span>
+          <span class="score-unit">/100</span>
+        </div>
+      </div>
+      <div class="score-text">
+        <div class="score-title">Score de conformité — Ma Boutique</div>
+        <div class="score-desc">Vous avez complété 8 actions sur 13. Il vous reste 5 tâches pour atteindre la conformité totale, dont 2 critiques.</div>
+        <div class="score-pills">
+          <div class="score-pill"><div class="score-pill-dot" style="background:#10B981"></div>5 terminées</div>
+          <div class="score-pill"><div class="score-pill-dot" style="background:#F59E0B"></div>2 en cours</div>
+          <div class="score-pill"><div class="score-pill-dot" style="background:#6A6E88"></div>6 à faire</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-icon" style="background:var(--is)"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#2D3A8C" stroke-width="2"><path d="M11 2H5a1 1 0 00-1 1v14a1 1 0 001 1h10a1 1 0 001-1V7z"/><polyline points="11,2 11,7 16,7"/></svg></div>
+        <div class="kpi-label">Documents</div>
+        <div class="kpi-val" style="color:var(--i)">4<span style="font-size:1.1rem;color:var(--mg)">/6</span></div>
+        <div class="kpi-sub"><span class="kpi-up">↑ 2 générés</span> cette semaine</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-icon" style="background:var(--gns)"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#059669" stroke-width="2"><path d="M4 10l4 4 8-8"/></svg></div>
+        <div class="kpi-label">Conformité</div>
+        <div class="kpi-val" style="color:#059669">67%</div>
+        <div class="kpi-sub"><span class="kpi-up">↑ +12%</span> depuis le mois dernier</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-icon" style="background:var(--ams)"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#D97706" stroke-width="2"><circle cx="10" cy="7" r="3"/><path d="M4 17c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg></div>
+        <div class="kpi-label">Sous-traitants</div>
+        <div class="kpi-val" style="color:#D97706">5<span style="font-size:1.1rem;color:var(--mg)">/7</span></div>
+        <div class="kpi-sub"><span class="kpi-dn">1 à vérifier</span> Google Analytics</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-icon" style="background:#F0F0FF"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#4F5DB3" stroke-width="2"><rect x="3" y="3" width="14" height="14" rx="1.5"/><line x1="3" y1="8" x2="17" y2="8"/><line x1="7" y1="8" x2="7" y2="17"/></svg></div>
+        <div class="kpi-label">Registre</div>
+        <div class="kpi-val" style="color:var(--i)">5</div>
+        <div class="kpi-sub">traitements documentés</div>
+      </div>
+    </div>
+
+    <!-- 2-column layout -->
+    <div class="dash-grid">
+      <div class="dash-main">
+
+        <!-- Roadmap Table -->
+        <div class="roadmap-card">
+          <div class="roadmap-head">
+            <div class="roadmap-head-left">
+              <div class="roadmap-head-title">Plan d'actions RGPD</div>
+              <div class="roadmap-progress">8 / 13 actions complétées</div>
+            </div>
+            <div class="filter-tabs">
+              <button class="ftab active" onclick="filterRoadmap('all',this)">Tout</button>
+              <button class="ftab" onclick="filterRoadmap('todo',this)">À faire</button>
+              <button class="ftab" onclick="filterRoadmap('inprogress',this)">En cours</button>
+              <button class="ftab" onclick="filterRoadmap('done',this)">Terminé</button>
+            </div>
+          </div>
+          <table class="roadmap-table">
+            <thead>
+              <tr>
+                <th class="rt-th"></th>
+                <th class="rt-th">Tâche</th>
+                <th class="rt-th">Catégorie</th>
+                <th class="rt-th">Priorité</th>
+                <th class="rt-th">Statut</th>
+                <th class="rt-th">Action</th>
+              </tr>
+            </thead>
+            <tbody id="roadmap-tbody"></tbody>
+          </table>
+        </div>
+
+      </div>
+      <div class="dash-side">
+
+        <!-- Recent docs -->
+        <div class="side-card">
+          <div class="side-card-title">
+            Documents récents
+            <a class="side-card-link" onclick="showSec('documents',null)">Voir tout →</a>
+          </div>
+          <div class="doc-item">
+            <div class="doc-item-icon" style="background:var(--is)"><svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="#2D3A8C" stroke-width="2"><path d="M11 2H5a1 1 0 00-1 1v14a1 1 0 001 1h10a1 1 0 001-1V7z"/></svg></div>
+            <div class="doc-item-name">Mentions légales</div>
+            <div><span class="sbadge sbadge-done"><span class="sbadge-dot"></span>OK</span></div>
+          </div>
+          <div class="doc-item">
+            <div class="doc-item-icon" style="background:var(--is)"><svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="#2D3A8C" stroke-width="2"><rect x="3" y="11" width="14" height="8" rx="1.5"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+            <div class="doc-item-name">Politique confidentialité</div>
+            <div><span class="sbadge sbadge-done"><span class="sbadge-dot"></span>OK</span></div>
+          </div>
+          <div class="doc-item">
+            <div class="doc-item-icon" style="background:var(--ams)"><svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="#D97706" stroke-width="2"><circle cx="10" cy="10" r="8"/><line x1="10" y1="6" x2="10" y2="10"/><line x1="10" y1="14" x2="10.01" y2="14"/></svg></div>
+            <div class="doc-item-name">Bandeau cookies</div>
+            <div><span class="sbadge sbadge-ip"><span class="sbadge-dot"></span>En cours</span></div>
+          </div>
+          <div class="doc-item">
+            <div class="doc-item-icon" style="background:#f5f5f8"><svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="#ccc" stroke-width="2"><path d="M11 2H5a1 1 0 00-1 1v14a1 1 0 001 1h10a1 1 0 001-1V7z"/></svg></div>
+            <div class="doc-item-name" style="color:var(--mg)">Registre de traitement</div>
+            <div><span class="sbadge sbadge-todo"><span class="sbadge-dot"></span>À faire</span></div>
+          </div>
+        </div>
+
+        <!-- Alerts -->
+        <div class="side-card">
+          <div class="side-card-title">
+            Alertes légales
+            <span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--rds);color:var(--rd);font-size:.62rem;font-weight:700">1</span>
+          </div>
+          <div class="alert-item">
+            <div class="alert-item-dot" style="background:var(--rd)"></div>
+            <div>
+              <div class="alert-item-text">Google Analytics — transfert hors UE à clarifier</div>
+              <div class="alert-item-sub">Action requise · Ajoutez un DPA ou une alternative</div>
+            </div>
+          </div>
+          <div class="alert-item">
+            <div class="alert-item-dot" style="background:var(--am)"></div>
+            <div>
+              <div class="alert-item-text">Bandeau cookies non conforme au référentiel CNIL 2024</div>
+              <div class="alert-item-sub">Vérification recommandée</div>
+            </div>
+          </div>
+          <div class="alert-item">
+            <div class="alert-item-dot" style="background:var(--gn)"></div>
+            <div>
+              <div class="alert-item-text">Vos mentions légales sont à jour (Mars 2026)</div>
+              <div class="alert-item-sub">Prochaine vérification automatique en Juin 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Boutique info -->
+        <div class="side-card">
+          <div class="side-card-title">Votre boutique</div>
+          <div class="account-row" style="font-size:.8rem;padding:8px 0">
+            <span class="account-label">Plateforme</span>
+            <span class="account-value">Shopify</span>
+          </div>
+          <div class="account-row" style="font-size:.8rem;padding:8px 0">
+            <span class="account-label">URL</span>
+            <span class="account-value" style="font-size:.75rem">maboutique.fr</span>
+          </div>
+          <div class="account-row" style="font-size:.8rem;padding:8px 0;border:none">
+            <span class="account-label">Plan actuel</span>
+            <span class="plan-badge-big" style="font-size:.7rem;padding:3px 10px">Essentiel</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION: DOCUMENTS ══ -->
+  <div id="sec-documents" class="sec">
+    <div class="sec-header">
+      <div class="sec-header-left">
+        <div class="sec-title">Documents légaux</div>
+        <div class="sec-sub">Générez, exportez et gérez tous vos documents de conformité RGPD.</div>
+      </div>
+      <button class="btn-primary" onclick="openModal(null)">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="2.2"><line x1="10" y1="3" x2="10" y2="17"/><line x1="3" y1="10" x2="17" y2="10"/></svg>
+        Générer un document
+      </button>
+    </div>
+    <div class="doc-grid" id="doc-grid-list"></div>
+  </div>
+
+  <!-- ══ SECTION: SOUS-TRAITANTS ══ -->
+  <div id="sec-traitants" class="sec">
+    <div class="sec-header">
+      <div class="sec-header-left">
+        <div class="sec-title">Sous-traitants</div>
+        <div class="sec-sub">Outils et services qui traitent des données personnelles pour votre compte.</div>
+      </div>
+      <button class="btn-secondary" onclick="openModal('dpa')">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="var(--i)" stroke-width="2.2"><line x1="10" y1="3" x2="10" y2="17"/><line x1="3" y1="10" x2="17" y2="10"/></svg>
+        Ajouter un outil
+      </button>
+    </div>
+    <div class="vendor-grid" id="vendor-grid"></div>
+  </div>
+
+  <!-- ══ SECTION: REGISTRE ══ -->
+  <div id="sec-registre" class="sec">
+    <div class="sec-header">
+      <div class="sec-header-left">
+        <div class="sec-title">Registre de traitement</div>
+        <div class="sec-sub">Article 30 RGPD — obligatoire pour toute organisation traitant des données personnelles.</div>
+      </div>
+      <button class="btn-primary" onclick="openModal('registre')">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="2.2"><line x1="10" y1="3" x2="10" y2="17"/><line x1="3" y1="10" x2="17" y2="10"/></svg>
+        Ajouter un traitement
+      </button>
+    </div>
+    <div class="registre-table-wrap">
+      <table class="reg-table">
+        <thead>
+          <tr>
+            <th class="reg-th">Traitement</th>
+            <th class="reg-th">Finalité</th>
+            <th class="reg-th">Données collectées</th>
+            <th class="reg-th">Base légale</th>
+            <th class="reg-th">Conservation</th>
+            <th class="reg-th">Sous-traitant</th>
+          </tr>
+        </thead>
+        <tbody id="registre-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION: FORMATIONS ══ -->
+  <div id="sec-formations" class="sec">
+    <div class="sec-header">
+      <div class="sec-header-left">
+        <div class="sec-title">Formation RGPD</div>
+        <div class="sec-sub">5 modules pour comprendre et maîtriser vos obligations légales en tant qu'e-commerçant.</div>
+      </div>
+    </div>
+    <div class="formation-grid" id="formation-grid"></div>
+  </div>
+
+  <!-- ══ SECTION: COMPTE ══ -->
+  <div id="sec-compte" class="sec">
+    <div class="sec-header">
+      <div class="sec-header-left">
+        <div class="sec-title">Mon compte</div>
+        <div class="sec-sub">Gérez vos informations personnelles, votre boutique et votre abonnement.</div>
+      </div>
+    </div>
+    <div class="account-grid">
+
+      <!-- Infos personnelles -->
+      <div class="account-card">
+        <div class="account-card-title">Informations personnelles</div>
+        <div class="account-form">
+          <div class="form-group">
+            <label class="form-label">Prénom et nom</label>
+            <input class="form-input" type="text" value="Marie Laurent">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Adresse email</label>
+            <input class="form-input" type="email" value="contact@maboutique.fr">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Téléphone</label>
+            <input class="form-input" type="tel" value="+33 6 12 34 56 78">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Entreprise / Boutique</label>
+            <input class="form-input" type="text" value="Ma Boutique SAS">
+          </div>
+          <button class="btn-primary" style="margin-top:4px">Sauvegarder</button>
+        </div>
+      </div>
+
+      <!-- Votre boutique -->
+      <div class="account-card">
+        <div class="account-card-title">Votre boutique</div>
+        <div class="account-form">
+          <div class="form-group">
+            <label class="form-label">Nom de la boutique</label>
+            <input class="form-input" type="text" value="Ma Boutique">
+          </div>
+          <div class="form-group">
+            <label class="form-label">URL</label>
+            <input class="form-input" type="url" value="https://maboutique.fr">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Plateforme</label>
+            <select class="form-select" style="border:1px solid #d2d2d7;border-radius:9px;padding:11px 13px;font-family:var(--fb);font-size:.88rem;outline:none">
+              <option selected>Shopify</option>
+              <option>WooCommerce</option>
+              <option>PrestaShop</option>
+              <option>Magento</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">SIRET</label>
+            <input class="form-input" type="text" value="123 456 789 00012">
+          </div>
+          <button class="btn-primary" style="margin-top:4px">Sauvegarder</button>
+        </div>
+      </div>
+
+      <!-- Abonnement -->
+      <div class="account-card">
+        <div class="account-card-title">Abonnement</div>
+        <div class="account-row">
+          <span class="account-label">Plan actuel</span>
+          <span class="plan-badge-big">Essentiel</span>
+        </div>
+        <div class="account-row">
+          <span class="account-label">Tarif</span>
+          <span class="account-value">29€ / mois</span>
+        </div>
+        <div class="account-row">
+          <span class="account-label">Prochain renouvellement</span>
+          <span class="account-value">16 avril 2026</span>
+        </div>
+        <div class="account-row">
+          <span class="account-label">Membre depuis</span>
+          <span class="account-value">Mars 2026</span>
+        </div>
+        <div class="account-row" style="border:none;margin-top:8px">
+          <div style="background:linear-gradient(135deg,var(--i),#6C7BF0);border-radius:12px;padding:16px;width:100%">
+            <div style="font-family:var(--fd);font-size:.9rem;font-weight:600;color:#fff;margin-bottom:4px">Passer à Pro — 49€/mois</div>
+            <div style="font-family:var(--fb);font-size:.78rem;color:#B4B8E8;margin-bottom:12px">DPA auto · Multi-boutiques · Support prioritaire · Certificat conformité</div>
+            <button class="btn-full" style="padding:10px;font-size:.82rem">Passer à Pro</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sécurité -->
+      <div class="account-card">
+        <div class="account-card-title">Sécurité</div>
+        <div class="account-form">
+          <div class="form-group">
+            <label class="form-label">Mot de passe actuel</label>
+            <input class="form-input" type="password" placeholder="••••••••">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nouveau mot de passe</label>
+            <input class="form-input" type="password" placeholder="••••••••">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirmer le nouveau mot de passe</label>
+            <input class="form-input" type="password" placeholder="••••••••">
+          </div>
+          <button class="btn-primary" style="margin-top:4px">Modifier le mot de passe</button>
+        </div>
+        <div style="margin-top:24px;padding-top:20px;border-top:1px solid #f0f0f5">
+          <div style="font-family:var(--fd);font-size:.9rem;font-weight:600;color:var(--tx);margin-bottom:8px">Supprimer le compte</div>
+          <p style="font-family:var(--fb);font-size:.8rem;color:var(--dg);margin-bottom:12px">Cette action est irréversible. Toutes vos données seront supprimées.</p>
+          <button style="font-family:var(--fb);font-size:.82rem;padding:9px 18px;border-radius:980px;background:var(--rds);color:var(--rd);border:1px solid var(--rd);cursor:pointer;font-weight:500">Supprimer mon compte</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end main -->
+</div><!-- end app -->
+
+<!-- ═══════════════════════════════════════════════
+     DOCUMENT GENERATOR MODAL
+════════════════════════════════════════════════ -->
+<div id="doc-modal" class="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Générer un document</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-steps">
+      <div class="mstep active" id="mstep-1">1 · Votre boutique</div>
+      <div class="mstep" id="mstep-2">2 · Données collectées</div>
+      <div class="mstep" id="mstep-3">3 · Génération</div>
+    </div>
+    <div class="modal-body" id="modal-body"><!-- injected by JS --></div>
+    <div class="modal-footer" id="modal-footer">
+      <button class="btn-modal-back" id="modal-back-btn" onclick="modalPrev()">Retour</button>
+      <button class="btn-modal-next" id="modal-next-btn" onclick="modalNext()">Continuer →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ──────────────────────────────────────────
+const TASKS = [
+  {id:1,name:'Mentions légales',cat:'docs',catLabel:'Documents',priority:'crit',status:'done',action:'mentions-legales'},
+  {id:2,name:'Politique de confidentialité',cat:'docs',catLabel:'Documents',priority:'crit',status:'done',action:'politique-confidentialite'},
+  {id:3,name:'Bandeau cookies RGPD',cat:'cookies',catLabel:'Cookies',priority:'high',status:'inprogress',action:'bandeau-cookies'},
+  {id:4,name:'Paramétrage du consentement',cat:'cookies',catLabel:'Cookies',priority:'high',status:'todo',action:null},
+  {id:5,name:'Registre de traitement',cat:'registre',catLabel:'Registre',priority:'crit',status:'inprogress',action:'registre'},
+  {id:6,name:'DPA — Shopify',cat:'traitants',catLabel:'Sous-traitants',priority:'high',status:'todo',action:'dpa'},
+  {id:7,name:'DPA — Stripe',cat:'traitants',catLabel:'Sous-traitants',priority:'high',status:'done',action:'dpa'},
+  {id:8,name:'DPA — Mailchimp',cat:'traitants',catLabel:'Sous-traitants',priority:'med',status:'todo',action:'dpa'},
+  {id:9,name:'Audit Google Analytics',cat:'traitants',catLabel:'Sous-traitants',priority:'high',status:'alert',action:null},
+  {id:10,name:'Procédure de violation de données',cat:'processus',catLabel:'Processus',priority:'high',status:'todo',action:null},
+  {id:11,name:'Formulaire demande d\'accès (DSAR)',cat:'processus',catLabel:'Processus',priority:'med',status:'todo',action:null},
+  {id:12,name:'Formation RGPD — Module 1',cat:'formation',catLabel:'Formation',priority:'med',status:'done',action:'formations'},
+  {id:13,name:'Formation RGPD — Module 2',cat:'formation',catLabel:'Formation',priority:'med',status:'inprogress',action:'formations'},
+];
+
+const DOCS = [
+  {id:'mentions-legales',name:'Mentions légales',icon:'📄',iconBg:'var(--is)',iconColor:true,desc:'Informations légales obligatoires sur votre identité, hébergeur et coordonnées.',status:'done',date:'15 mars 2026'},
+  {id:'politique-confidentialite',name:'Politique de confidentialité',icon:'🔒',iconBg:'var(--is)',iconColor:true,desc:'Déclaration complète sur la collecte et le traitement des données personnelles de vos clients.',status:'done',date:'15 mars 2026'},
+  {id:'bandeau-cookies',name:'Bandeau cookies',icon:'🍪',iconBg:'var(--ams)',iconColor:false,desc:'Script HTML/CSS prêt à copier-coller pour obtenir le consentement CNIL conforme.',status:'inprogress',date:'En cours'},
+  {id:'registre',name:'Registre de traitement',icon:'📊',iconBg:'var(--is)',iconColor:true,desc:'Registre Art. 30 RGPD pré-rempli avec vos traitements e-commerce.',status:'todo',date:'À générer'},
+  {id:'dpa',name:'Contrats sous-traitants (DPA)',icon:'🤝',iconBg:'var(--gns)',iconColor:false,desc:'Accords de traitement de données avec chacun de vos outils (Shopify, Stripe, Mailchimp…).',status:'partial',date:'2 générés / 4'},
+  {id:'certificat',name:'Certificat de conformité',icon:'🛡️',iconBg:'#F0F0FF',iconColor:false,desc:'Document officiel attestant de votre conformité au RGPD — à présenter en cas de contrôle CNIL.',status:'todo',date:'Disponible Pro'},
+];
+
+const VENDORS = [
+  {name:'Shopify',initial:'S',bg:'#96BF48',type:'Plateforme e-commerce',location:'États-Unis',transfer:'Clauses contractuelles types (SCC)',data:'Nom, adresse, email, commandes',dpa:'todo',count:14},
+  {name:'Stripe',initial:'S',bg:'#635BFF',type:'Paiement en ligne',location:'Union Européenne',transfer:'Hébergé en UE',data:'Données bancaires, email',dpa:'done',count:6},
+  {name:'Mailchimp',initial:'M',bg:'#FFE01B',initialColor:'#000',type:'Email marketing',location:'États-Unis',transfer:'Clauses contractuelles types (SCC)',data:'Email, prénom, historique achats',dpa:'todo',count:5},
+  {name:'Google Analytics',initial:'G',bg:'#E37400',type:'Analyse d\'audience',location:'États-Unis',transfer:'À clarifier ⚠️',data:'Navigation, device, localisation',dpa:'alert',count:12},
+  {name:'Colissimo',initial:'C',bg:'#FFD100',initialColor:'#000',type:'Livraison colis',location:'Union Européenne',transfer:'Hébergé en UE',data:'Nom, adresse, téléphone',dpa:'done',count:8},
+  {name:'Crisp',initial:'C',bg:'#1972F5',type:'Chat support',location:'Union Européenne',transfer:'Hébergé en UE',data:'Email, messages, navigation',dpa:'todo',count:4},
+  {name:'Trustpilot',initial:'T',bg:'#00B67A',type:'Avis clients',location:'Danemark (UE)',transfer:'Hébergé en UE',data:'Email, prénom, commande',dpa:'done',count:3},
+];
+
+const REGISTRE = [
+  {traitement:'Gestion des commandes',finalite:'Traitement et livraison des commandes clients',donnees:'Nom, adresse postale, email, téléphone, données bancaires (encryptées)',base:'contrat',baseTxt:'Exécution du contrat',conservation:'5 ans',traitant:'Shopify, Stripe'},
+  {traitement:'Prospection commerciale',finalite:'Envoi de newsletters et offres promotionnelles',donnees:'Email, prénom, historique d\'achats, préférences',base:'consent',baseTxt:'Consentement',conservation:'3 ans',traitant:'Mailchimp'},
+  {traitement:'Analyse d\'audience',finalite:'Mesure de la fréquentation et amélioration du site',donnees:'Données de navigation, device, adresse IP anonymisée, localisation approximative',base:'legitime',baseTxt:'Intérêt légitime',conservation:'13 mois',traitant:'Google Analytics'},
+  {traitement:'Gestion des avis',finalite:'Collecte et publication d\'avis clients',donnees:'Prénom, note, commentaire, email (non public)',base:'legitime',baseTxt:'Intérêt légitime',conservation:'5 ans',traitant:'Trustpilot'},
+  {traitement:'Service client',finalite:'Réponse aux demandes et réclamations clients',donnees:'Nom, email, historique de commandes, messages',base:'legitime',baseTxt:'Intérêt légitime',conservation:'3 ans',traitant:'Crisp'},
+];
+
+const FORMATIONS = [
+  {num:'01',title:'Les fondamentaux du RGPD',desc:'Comprendre le règlement, les acteurs clés et vos obligations en tant qu\'e-commerçant.',duration:'12 min',progress:100,status:'done'},
+  {num:'02',title:'Données personnelles & e-commerce',desc:'Identifier toutes les données que vous collectez à chaque commande et leurs risques.',duration:'15 min',progress:60,status:'inprogress'},
+  {num:'03',title:'Documents légaux obligatoires',desc:'Mentions légales, politique de confidentialité, registre : ce qui est obligatoire et comment le rédiger.',duration:'18 min',progress:0,status:'todo'},
+  {num:'04',title:'Cookies & consentement',desc:'Le référentiel CNIL 2024, les bannières conformes et les outils de gestion du consentement.',duration:'14 min',progress:0,status:'todo'},
+  {num:'05',title:'Sous-traitants & transferts',desc:'Gérer vos DPA, comprendre les transferts hors UE (SCC, Privacy Shield) et sécuriser vos outils.',duration:'20 min',progress:0,status:'todo'},
+];
+
+// ─── RENDER ────────────────────────────────────────
+let activeFilter = 'all';
+let checkedTasks = new Set([1,2,7,12]);
+
+function renderRoadmap(){
+  const tbody = document.getElementById('roadmap-tbody');
+  let filtered = TASKS.filter(t=>{
+    if(activeFilter==='all') return true;
+    if(activeFilter==='done') return t.status==='done' || checkedTasks.has(t.id);
+    if(activeFilter==='inprogress') return t.status==='inprogress';
+    if(activeFilter==='todo') return (t.status==='todo'||t.status==='alert') && !checkedTasks.has(t.id);
+    return true;
+  });
+  tbody.innerHTML = filtered.map(t=>{
+    const isDone = t.status==='done' || checkedTasks.has(t.id);
+    const catCls = {docs:'cat-docs',cookies:'cat-cookies',traitants:'cat-traitants',processus:'cat-processus',formation:'cat-formation',registre:'cat-registre'}[t.cat];
+    const priTxt = {crit:'Critique',high:'Haute',med:'Moyenne'}[t.priority];
+    const priCls = {crit:'priority-crit',high:'priority-high',med:'priority-med'}[t.priority];
+    let statusHtml;
+    const s = isDone ? 'done' : t.status;
+    if(s==='done') statusHtml=`<span class="sbadge sbadge-done"><span class="sbadge-dot"></span>Terminé</span>`;
+    else if(s==='inprogress') statusHtml=`<span class="sbadge sbadge-ip"><span class="sbadge-dot"></span>En cours</span>`;
+    else if(s==='alert') statusHtml=`<span class="sbadge sbadge-alert"><span class="sbadge-dot"></span>À vérifier</span>`;
+    else statusHtml=`<span class="sbadge sbadge-todo"><span class="sbadge-dot"></span>À faire</span>`;
+    const actionBtn = isDone
+      ? `<div class="rt-actions"><button class="btn-sm btn-sm-ghost">Voir</button></div>`
+      : t.action
+        ? `<div class="rt-actions"><button class="btn-sm" onclick="handleTaskAction('${t.action}')">Commencer</button></div>`
+        : `<div class="rt-actions"><button class="btn-sm btn-sm-ghost">En savoir +</button></div>`;
+    return `<tr class="rt-row ${isDone?'task-done':''}" id="task-row-${t.id}">
+      <td class="rt-td">
+        <div class="rt-check ${isDone?'checked':''}" onclick="toggleTask(${t.id})">
+          ${isDone?`<svg width="10" height="10" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`:''}
+        </div>
+      </td>
+      <td class="rt-td task-name-cell">${t.name}</td>
+      <td class="rt-td"><span class="cat-tag ${catCls}">${t.catLabel}</span></td>
+      <td class="rt-td"><span class="${priCls}">${priTxt}</span></td>
+      <td class="rt-td">${statusHtml}</td>
+      <td class="rt-td">${actionBtn}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderDocs(){
+  const grid = document.getElementById('doc-grid-list');
+  if(!grid) return;
+  grid.innerHTML = DOCS.map(d=>{
+    let statusHtml, iconBgStyle='', btnHtml='';
+    if(d.status==='done'){
+      statusHtml=`<span class="sbadge sbadge-done"><span class="sbadge-dot"></span>Généré</span>`;
+      btnHtml=`<div class="doc-actions"><button class="icon-btn-sm" title="Copier" onclick="copyDoc('${d.id}')"><svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="var(--i)" stroke-width="2"><rect x="8" y="2" width="10" height="14" rx="1.5"/><path d="M4 5H3a1 1 0 00-1 1v11a1 1 0 001 1h10a1 1 0 001-1v-1"/></svg></button><button class="icon-btn-sm" title="Télécharger PDF"><svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="var(--i)" stroke-width="2"><path d="M10 2v11m0 0l-3-3m3 3l3-3"/><path d="M3 16h14"/></svg></button></div>`;
+    } else if(d.status==='inprogress'){
+      statusHtml=`<span class="sbadge sbadge-ip"><span class="sbadge-dot"></span>En cours</span>`;
+      btnHtml=`<button class="btn-sm">Continuer</button>`;
+    } else if(d.status==='partial'){
+      statusHtml=`<span class="sbadge sbadge-ip"><span class="sbadge-dot"></span>Partiel</span>`;
+      btnHtml=`<button class="btn-sm" onclick="openModal('${d.id}')">Générer</button>`;
+    } else {
+      statusHtml=`<span class="sbadge sbadge-todo"><span class="sbadge-dot"></span>À générer</span>`;
+      btnHtml=`<button class="btn-sm" onclick="openModal('${d.id}')">${d.status==='todo'&&d.id==='certificat'?'Plan Pro requis':'Générer'}</button>`;
+    }
+    return `<div class="doc-card" onclick="">
+      <div class="doc-card-icon" style="background:${d.iconBg};font-size:1.2rem">${d.icon}</div>
+      <div class="doc-card-name">${d.name}</div>
+      <div class="doc-card-desc">${d.desc}</div>
+      <div class="doc-card-footer">
+        <div style="display:flex;flex-direction:column;gap:4px">${statusHtml}<span style="font-family:var(--fb);font-size:.68rem;color:var(--mg)">${d.date}</span></div>
+        ${btnHtml}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderVendors(){
+  const grid = document.getElementById('vendor-grid');
+  if(!grid) return;
+  grid.innerHTML = VENDORS.map(v=>{
+    const dpaStatus = v.dpa==='done'
+      ? `<span class="sbadge sbadge-done"><span class="sbadge-dot"></span>DPA signé</span>`
+      : v.dpa==='alert'
+        ? `<span class="sbadge sbadge-alert"><span class="sbadge-dot"></span>À vérifier</span>`
+        : `<span class="sbadge sbadge-todo"><span class="sbadge-dot"></span>DPA manquant</span>`;
+    const locBadge = v.location.includes('Union Européenne') || v.location.includes('UE') || v.location.includes('Danemark')
+      ? `<span style="display:inline-block;padding:2px 8px;border-radius:980px;background:var(--gns);color:#065F46;font-family:var(--fb);font-size:.68rem;font-weight:600">UE</span>`
+      : `<span style="display:inline-block;padding:2px 8px;border-radius:980px;background:var(--ams);color:#92400E;font-family:var(--fb);font-size:.68rem;font-weight:600">Hors UE</span>`;
+    return `<div class="vendor-card">
+      <div class="vendor-header">
+        <div class="vendor-logo" style="background:${v.bg};color:${v.initialColor||'#fff'}">${v.initial}</div>
+        <div><div class="vendor-name">${v.name}</div><div class="vendor-type">${v.type}</div></div>
+      </div>
+      <div class="vendor-data-row"><span>Localisation</span><span class="vendor-data-val">${locBadge}</span></div>
+      <div class="vendor-data-row"><span>Transfert</span><span class="vendor-data-val" style="font-size:.72rem;text-align:right;max-width:140px">${v.transfer}</span></div>
+      <div class="vendor-data-row"><span>Données traitées</span><span class="vendor-data-val">${v.count} catégories</span></div>
+      <div class="vendor-footer">
+        ${dpaStatus}
+        ${v.dpa!=='done'?`<button class="btn-sm" onclick="openModal('dpa')">Générer DPA</button>`:`<button class="btn-sm btn-sm-ghost">Voir DPA</button>`}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderRegistre(){
+  const tbody = document.getElementById('registre-tbody');
+  if(!tbody) return;
+  tbody.innerHTML = REGISTRE.map(r=>{
+    const baseCls = {contrat:'base-contrat',consent:'base-consent',legitime:'base-legitime'}[r.base];
+    return `<tr class="reg-row">
+      <td class="reg-td reg-td-name">${r.traitement}</td>
+      <td class="reg-td" style="color:var(--dg);font-size:.8rem;max-width:180px">${r.finalite}</td>
+      <td class="reg-td" style="color:var(--dg);font-size:.78rem;max-width:180px">${r.donnees}</td>
+      <td class="reg-td"><span class="base-tag ${baseCls}">${r.baseTxt}</span></td>
+      <td class="reg-td">${r.conservation}</td>
+      <td class="reg-td" style="color:var(--dg);font-size:.78rem">${r.traitant}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderFormations(){
+  const grid = document.getElementById('formation-grid');
+  if(!grid) return;
+  grid.innerHTML = FORMATIONS.map(f=>{
+    const statusHtml = f.status==='done'
+      ? `<span class="sbadge sbadge-done" style="margin-bottom:12px"><span class="sbadge-dot"></span>Terminé</span>`
+      : f.status==='inprogress'
+        ? `<span class="sbadge sbadge-ip" style="margin-bottom:12px"><span class="sbadge-dot"></span>En cours</span>`
+        : `<span class="sbadge sbadge-todo" style="margin-bottom:12px"><span class="sbadge-dot"></span>À commencer</span>`;
+    const btnHtml = f.status==='done'
+      ? `<button class="btn-sm btn-sm-ghost">Revoir</button>`
+      : f.status==='inprogress'
+        ? `<button class="btn-sm">Continuer</button>`
+        : `<button class="btn-sm">Commencer</button>`;
+    return `<div class="formation-card">
+      <div class="formation-num">${f.num}</div>
+      ${statusHtml}
+      <div class="formation-title">${f.title}</div>
+      <div class="formation-desc">${f.desc}</div>
+      <div class="formation-prog"><div class="formation-prog-fill" style="width:${f.progress}%"></div></div>
+      <div class="formation-meta"><span>${f.progress}% complété</span><span>${f.duration}</span></div>
+      <div style="margin-top:14px">${btnHtml}</div>
+    </div>`;
+  }).join('');
+}
+
+// ─── NAVIGATION ────────────────────────────────────
+const SECTION_TITLES = {
+  dashboard:'Tableau de bord',
+  documents:'Documents légaux',
+  traitants:'Sous-traitants',
+  registre:'Registre de traitement',
+  formations:'Formations RGPD',
+  compte:'Mon compte',
+};
+
+function showSec(id, btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  document.querySelectorAll('.sb-item').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.getElementById('topbar-title').textContent = SECTION_TITLES[id]||id;
+  document.getElementById('main-scroll').scrollTop = 0;
+  if(id==='documents') renderDocs();
+  if(id==='traitants') renderVendors();
+  if(id==='registre') renderRegistre();
+  if(id==='formations') renderFormations();
+}
+
+function filterRoadmap(f, btn){
+  activeFilter = f;
+  document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderRoadmap();
+}
+
+function toggleTask(id){
+  if(checkedTasks.has(id)) checkedTasks.delete(id);
+  else checkedTasks.add(id);
+  renderRoadmap();
+}
+
+function handleTaskAction(action){
+  if(action==='formations') showSec('formations',null);
+  else if(action==='registre') showSec('registre',null);
+  else openModal(action);
+}
+
+// ─── LOGIN ─────────────────────────────────────────
+function doLogin(){
+  document.getElementById('login-view').style.display='none';
+  document.getElementById('app-view').style.display='flex';
+  renderRoadmap();
+  setTimeout(()=>{
+    const arc = document.getElementById('score-arc');
+    if(arc) arc.setAttribute('stroke-dasharray','159.8 238.8');
+  }, 100);
+}
+
+function doLogout(){
+  document.getElementById('app-view').style.display='none';
+  document.getElementById('login-view').style.display='block';
+}
+
+// ─── COPY DOC ──────────────────────────────────────
+function copyDoc(id){
+  const text = 'Document Ordo — copié dans le presse-papier (démo).';
+  navigator.clipboard.writeText(text).catch(()=>{});
+  const btn = event.target.closest('button');
+  if(btn){ btn.style.background='var(--gns)'; setTimeout(()=>btn.style.background='',1000); }
+}
+
+// ─── MODAL WIZARD ──────────────────────────────────
+let modalStep = 1;
+let selectedDocType = null;
+
+const DOC_NAMES = {
+  'mentions-legales':'Mentions légales',
+  'politique-confidentialite':'Politique de confidentialité',
+  'bandeau-cookies':'Bandeau cookies',
+  'dpa':'Contrat sous-traitant (DPA)',
+  'registre':'Registre de traitement',
+};
+
+function openModal(docType){
+  selectedDocType = docType;
+  modalStep = 1;
+  document.getElementById('modal-title').textContent = docType
+    ? 'Générer — ' + (DOC_NAMES[docType]||docType)
+    : 'Générer un document';
+  renderModalStep();
+  document.getElementById('doc-modal').classList.add('open');
+}
+
+function closeModal(){
+  document.getElementById('doc-modal').classList.remove('open');
+}
+
+function renderModalStep(){
+  const body = document.getElementById('modal-body');
+  const backBtn = document.getElementById('modal-back-btn');
+  const nextBtn = document.getElementById('modal-next-btn');
+  document.querySelectorAll('.mstep').forEach((s,i)=>{
+    s.classList.remove('active','done');
+    if(i+1 < modalStep) s.classList.add('done');
+    if(i+1 === modalStep) s.classList.add('active');
+  });
+  backBtn.style.display = modalStep === 1 ? 'none' : 'block';
+  nextBtn.style.display = 'block';
+
+  if(modalStep === 1){
+    const selectHtml = selectedDocType ? '' : `
+      <div class="form-group">
+        <label class="form-label">Type de document</label>
+        <select class="form-select" id="doctype-select" style="border:1px solid #d2d2d7;border-radius:9px;padding:11px 13px;font-family:var(--fb);font-size:.88rem;outline:none;width:100%">
+          <option value="mentions-legales">Mentions légales</option>
+          <option value="politique-confidentialite">Politique de confidentialité</option>
+          <option value="bandeau-cookies">Bandeau cookies</option>
+          <option value="dpa">Contrat sous-traitant (DPA)</option>
+          <option value="registre">Registre de traitement</option>
+        </select>
+      </div>`;
+    body.innerHTML = `
+      ${selectHtml}
+      <div class="form-group">
+        <label class="form-label">Nom de votre boutique</label>
+        <input class="form-input" type="text" id="f-boutique" value="Ma Boutique" placeholder="Nom de votre boutique">
+      </div>
+      <div class="form-group">
+        <label class="form-label">URL du site</label>
+        <input class="form-input" type="url" id="f-url" value="https://maboutique.fr" placeholder="https://votreboutique.fr">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email de contact</label>
+        <input class="form-input" type="email" id="f-email" value="contact@maboutique.fr" placeholder="contact@votreboutique.fr">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Plateforme e-commerce</label>
+        <select class="form-select" style="border:1px solid #d2d2d7;border-radius:9px;padding:11px 13px;font-family:var(--fb);font-size:.88rem;outline:none;width:100%">
+          <option selected>Shopify</option>
+          <option>WooCommerce</option>
+          <option>PrestaShop</option>
+          <option>Magento</option>
+          <option>Autre</option>
+        </select>
+      </div>`;
+    nextBtn.textContent = 'Continuer →';
+
+  } else if(modalStep === 2){
+    body.innerHTML = `
+      <p style="font-family:var(--fb);font-size:.85rem;color:var(--dg);margin-bottom:18px;line-height:1.55">Sélectionnez les types de données que vous collectez sur votre boutique. Ordo personnalisera le document en conséquence.</p>
+      <div class="form-group">
+        <label class="form-label">Données personnelles collectées</label>
+        <div class="check-grid">
+          <label class="check-item"><input type="checkbox" checked> Nom et prénom</label>
+          <label class="check-item"><input type="checkbox" checked> Adresse postale</label>
+          <label class="check-item"><input type="checkbox" checked> Adresse email</label>
+          <label class="check-item"><input type="checkbox" checked> Numéro de téléphone</label>
+          <label class="check-item"><input type="checkbox" checked> Données bancaires</label>
+          <label class="check-item"><input type="checkbox"> Date de naissance</label>
+          <label class="check-item"><input type="checkbox" checked> Historique d'achats</label>
+          <label class="check-item"><input type="checkbox"> Préférences & cookies</label>
+          <label class="check-item"><input type="checkbox" checked> Données de navigation</label>
+          <label class="check-item"><input type="checkbox"> Données de géolocalisation</label>
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:6px">
+        <label class="form-label">Durée de conservation par défaut</label>
+        <select class="form-select" style="border:1px solid #d2d2d7;border-radius:9px;padding:11px 13px;font-family:var(--fb);font-size:.88rem;outline:none;width:100%">
+          <option>3 ans (recommandé)</option>
+          <option>5 ans</option>
+          <option>1 an</option>
+          <option>Durée légale spécifique par données</option>
+        </select>
+      </div>`;
+    nextBtn.textContent = 'Générer le document →';
+
+  } else if(modalStep === 3){
+    nextBtn.style.display = 'none';
+    backBtn.style.display = 'none';
+    body.innerHTML = `<div class="generate-state" id="gen-loading">
+      <div class="loading-ring"></div>
+      <div class="generate-title">Génération en cours…</div>
+      <div class="generate-sub">Ordo personnalise votre document selon les informations renseignées.</div>
+    </div>`;
+    setTimeout(()=>{
+      document.getElementById('gen-loading').innerHTML = `
+        <div style="width:52px;height:52px;border-radius:50%;background:var(--gns);display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div class="generate-title">Votre document est prêt !</div>
+        <div class="generate-sub">Mentions légales — Ma Boutique — généré le ${new Date().toLocaleDateString('fr-FR')}</div>
+        <div class="doc-preview-box">
+          <h3>MENTIONS LÉGALES — Ma Boutique</h3>
+          <p><strong>Éditeur du site</strong></p>
+          <p>Le présent site internet est édité par la société <strong>Ma Boutique SAS</strong>, immatriculée au RCS sous le numéro SIRET 123 456 789 00012, dont le siège social est situé en France.</p>
+          <p><strong>Contact :</strong> contact@maboutique.fr</p>
+          <p><strong>Directeur de la publication :</strong> Marie Laurent</p>
+          <p><strong>Hébergeur</strong></p>
+          <p>Ce site est hébergé par Shopify Inc., 151 O'Connor Street, Ground floor, Ottawa, Ontario K2P 2L8, Canada. Shopify traite les données de votre boutique conformément à ses clauses contractuelles types (SCC) approuvées par la Commission Européenne.</p>
+          <p><strong>Propriété intellectuelle</strong></p>
+          <p>L'ensemble du contenu de ce site (textes, images, graphismes, logo, icônes, sons, logiciels…) est la propriété exclusive de Ma Boutique, à l'exception des marques, logos ou contenus appartenant à d'autres sociétés partenaires ou auteurs.</p>
+          <p>Toute reproduction, distribution, modification, adaptation, retransmission ou publication de ces éléments est strictement interdite sans l'accord exprès par écrit de Ma Boutique.</p>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap">
+          <button class="btn-primary" onclick="closeModal()">
+            <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="2"><path d="M10 2v11m0 0l-3-3m3 3l3-3"/><path d="M3 16h14"/></svg>
+            Télécharger PDF
+          </button>
+          <button class="btn-secondary" onclick="closeModal()">
+            <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="var(--i)" stroke-width="2"><rect x="8" y="2" width="10" height="14" rx="1.5"/><path d="M4 5H3a1 1 0 00-1 1v11a1 1 0 001 1h10a1 1 0 001-1v-1"/></svg>
+            Copier le texte
+          </button>
+          <button class="btn-secondary" onclick="closeModal()">Fermer</button>
+        </div>`;
+    }, 2000);
+  }
+}
+
+function modalNext(){
+  if(modalStep === 1 && !selectedDocType){
+    const sel = document.getElementById('doctype-select');
+    if(sel) selectedDocType = sel.value;
+  }
+  if(modalStep < 3){
+    modalStep++;
+    renderModalStep();
+  }
+}
+
+function modalPrev(){
+  if(modalStep > 1){
+    modalStep--;
+    renderModalStep();
+  }
+}
+
+// ─── INIT ──────────────────────────────────────────
+renderRoadmap();
+</script>
+</body>
+</html>
