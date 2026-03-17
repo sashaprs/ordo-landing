@@ -7,6 +7,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='none' stroke='%232D3A8C' stroke-width='8'/><path d='M35 52 L45 62 L67 38' fill='none' stroke='%2386C5A3' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{--i:#2D3A8C;--id:#1E2A6E;--il:#4F5DB3;--is:#E8EAF6;--ig:#6C7BF0;--w:#FFF;--cr:#FAFAF8;--wg:#F5F4F0;--mg:#8E8E93;--dg:#6E6E73;--nv:#12152B;--nv2:#1a1f38;--tx:#1d1d1f;--gn:#10B981;--gns:#D1FAE5;--am:#F59E0B;--ams:#FEF3C7;--rd:#EF4444;--rds:#FEE2E2;--fd:'Outfit',sans-serif;--fb:'DM Sans',sans-serif;--sb:240px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -1129,36 +1130,136 @@ function doLogout(){
   document.getElementById('login-view').style.display='block';
 }
 
-// ─── PDF DOWNLOAD ──────────────────────────────────
+// ─── HTML → TEXTE STRUCTURÉ ──────────────────────────────────
+function parseDocHTML(html){
+  // Retourne un tableau de {type:'h3'|'p'|'strong_p', text:string}
+  const segments = [];
+  const cleaned = html
+    .replace(/<h3[^>]*>([\s\S]*?)<\/h3>/gi, (_, t) => { segments.push({type:'h3', text:t.replace(/<[^>]+>/g,'').trim()}); return ''; })
+    .replace(/<p[^>]*>([\s\S]*?)<\/p>/gi, (_, t) => {
+      const hasStrong = /<strong>/i.test(t);
+      const plain = t.replace(/<strong>/gi,'__BOLD__').replace(/<\/strong>/gi,'__ENDBOLD__').replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').trim();
+      if(plain) segments.push({type: hasStrong?'sp':'p', text:plain});
+      return '';
+    });
+  // Fallback : texte brut restant
+  const rest = cleaned.replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').trim();
+  if(rest) segments.push({type:'p', text:rest});
+  return segments;
+}
+
+// ─── PDF DOWNLOAD (jsPDF) ──────────────────────────────────
 function downloadPDF(docType){
+  if(!window.jspdf){ alert('Chargement en cours, réessayez dans un instant.'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit:'mm', format:'a4', putOnlyUsedFonts:true });
+  const name = DOC_NAMES[docType]||'Document';
+  const html  = DOC_PREVIEWS[docType]||`<h3>${name}</h3><p>Document généré par Ordo.</p>`;
+  const date  = new Date().toLocaleDateString('fr-FR');
+  const W = 170; // zone utile en mm (A4=210, marges 20 de chaque côté)
+  let y = 20;
+
+  // ── En-tête ──
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(18);
+  doc.setTextColor(45,58,140);
+  doc.text('Ordo.', 20, y);
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(9);
+  doc.setTextColor(142,142,147);
+  doc.text(`Généré le ${date}`, 190, y-4, {align:'right'});
+  doc.text('Ma Boutique — maboutique.fr', 190, y, {align:'right'});
+  doc.text('Document conforme RGPD (UE) 2016/679', 190, y+4, {align:'right'});
+  y += 10;
+  doc.setDrawColor(45,58,140);
+  doc.setLineWidth(0.5);
+  doc.line(20, y, 190, y);
+  y += 10;
+
+  // ── Contenu ──
+  const segments = parseDocHTML(html);
+  segments.forEach(seg => {
+    if(y > 272){ doc.addPage(); y = 20; }
+    if(seg.type === 'h3'){
+      y += 4;
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(12);
+      doc.setTextColor(45,58,140);
+      const lines = doc.splitTextToSize(seg.text, W);
+      doc.text(lines, 20, y);
+      y += lines.length * 6 + 3;
+      doc.setDrawColor(230,230,237);
+      doc.setLineWidth(0.3);
+      doc.line(20, y, 190, y);
+      y += 5;
+    } else {
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(10);
+      doc.setTextColor(60,60,60);
+      // Rendre __BOLD__ en gras inline (approximation : texte normal pour l'instant)
+      const plain = seg.text.replace(/__BOLD__|__ENDBOLD__/g,'');
+      const lines = doc.splitTextToSize(plain, W);
+      lines.forEach(line => {
+        if(y > 272){ doc.addPage(); y = 20; }
+        doc.text(line, 20, y);
+        y += 5.5;
+      });
+      y += 2;
+    }
+  });
+
+  // ── Pied de page sur chaque page ──
+  const totalPages = doc.internal.getNumberOfPages();
+  for(let i=1; i<=totalPages; i++){
+    doc.setPage(i);
+    doc.setDrawColor(230,230,237);
+    doc.setLineWidth(0.3);
+    doc.line(20, 283, 190, 283);
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(8);
+    doc.setTextColor(142,142,147);
+    doc.text('Ordo · getordo.fr', 20, 288);
+    doc.text(`${name} · Ma Boutique · Page ${i}/${totalPages}`, 190, 288, {align:'right'});
+  }
+
+  doc.save(`${docType.replace(/\s+/g,'-')}-ma-boutique.pdf`);
+}
+
+// ─── WORD DOWNLOAD (.doc HTML) ──────────────────────────────────
+function downloadWord(docType){
   const name = DOC_NAMES[docType]||'Document';
   const content = DOC_PREVIEWS[docType]||`<h3>${name}</h3><p>Document généré par Ordo.</p>`;
-  const win = window.open('','_blank');
-  win.document.write(`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">
-<title>${name} — Ma Boutique</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  const date = new Date().toLocaleDateString('fr-FR');
+  const wordHTML = `<!DOCTYPE html>
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="UTF-8"><title>${name}</title>
 <style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'DM Sans',sans-serif;color:#1d1d1f;background:#fff;padding:40px 60px;font-size:13.5px;line-height:1.7;max-width:780px;margin:0 auto}
-  .doc-header{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:18px;border-bottom:2px solid #2D3A8C;margin-bottom:28px}
-  .doc-logo{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.03em;color:#2D3A8C}
-  .doc-meta{font-size:11px;color:#8E8E93;text-align:right;line-height:1.5}
-  h3{font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;color:#2D3A8C;margin-bottom:16px;letter-spacing:-.01em}
-  p{margin-bottom:10px;color:#333}
+  body{font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.7;margin:2.5cm;color:#1d1d1f}
+  .doc-header{border-bottom:2pt solid #2D3A8C;padding-bottom:10pt;margin-bottom:22pt}
+  .doc-logo{font-family:Arial;font-size:20pt;font-weight:bold;color:#2D3A8C;letter-spacing:-1px}
+  .doc-meta{font-size:9pt;color:#8E8E93;margin-top:4pt;line-height:1.5}
+  h3{font-family:Arial;font-size:13pt;font-weight:bold;color:#2D3A8C;margin:18pt 0 8pt;border-bottom:1pt solid #e8e8ed;padding-bottom:4pt}
+  p{margin-bottom:9pt;color:#333;font-size:11pt}
   strong{font-weight:600;color:#1d1d1f}
-  .doc-footer{margin-top:40px;padding-top:14px;border-top:1px solid #e8e8ed;font-size:11px;color:#8E8E93;display:flex;justify-content:space-between}
-  @media print{body{padding:20px 30px}@page{margin:1cm}}
-</style></head><body>
+  .doc-footer{border-top:1pt solid #e8e8ed;margin-top:30pt;padding-top:8pt;font-size:9pt;color:#8E8E93}
+</style></head>
+<body>
 <div class="doc-header">
   <div class="doc-logo">Ordo.</div>
-  <div class="doc-meta">Généré le ${new Date().toLocaleDateString('fr-FR')}<br>Ma Boutique — maboutique.fr<br>Document conforme RGPD (UE) 2016/679</div>
+  <div class="doc-meta">Généré le ${date} &nbsp;|&nbsp; Ma Boutique — maboutique.fr &nbsp;|&nbsp; Document conforme RGPD (UE) 2016/679</div>
 </div>
 ${content}
-<div class="doc-footer"><span>Ordo · getordo.fr</span><span>${name} · Ma Boutique</span></div>
-</body></html>`);
-  win.document.close();
-  win.focus();
-  setTimeout(()=>{win.print();},600);
+<div class="doc-footer">Ordo · getordo.fr &nbsp;—&nbsp; ${name} · Ma Boutique</div>
+</body></html>`;
+  const blob = new Blob(['\ufeff', wordHTML], {type:'application/msword'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `${docType.replace(/\s+/g,'-')}-ma-boutique.doc`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
 }
 
 // ─── COPY DOC ──────────────────────────────────────
@@ -1361,9 +1462,13 @@ function renderModalStep(){
             <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="2"><path d="M10 2v11m0 0l-3-3m3 3l3-3"/><path d="M3 16h14"/></svg>
             Télécharger PDF
           </button>
+          <button class="btn-secondary" style="border-color:var(--i);color:var(--i)" onclick="downloadWord('${selectedDocType}')">
+            <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="var(--i)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V6z"/><polyline points="14,2 14,6 18,6"/><line x1="8" y1="10" x2="14" y2="10"/><line x1="8" y1="13" x2="12" y2="13"/></svg>
+            Télécharger Word
+          </button>
           <button class="btn-secondary" onclick="copyDoc('${selectedDocType}',this);this.textContent='Copié ✓'">
             <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="var(--i)" stroke-width="2"><rect x="8" y="2" width="10" height="14" rx="1.5"/><path d="M4 5H3a1 1 0 00-1 1v11a1 1 0 001 1h10a1 1 0 001-1v-1"/></svg>
-            Copier le texte
+            Copier
           </button>
           <button class="btn-secondary" onclick="closeModal()">Fermer</button>
         </div>`;
