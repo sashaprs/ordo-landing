@@ -329,25 +329,46 @@ Si ce fichier est utilisé comme CLAUDE.md pour Claude Code :
 
 ---
 
-## 14. INSTRUCTIONS FRONTEND — OBLIGATOIRE
+## 14. SKILL FRONTEND DESIGN
 
-**RÈGLE : Avant toute modification du frontend (HTML, CSS, JS, React), tu DOIS suivre ces directives de design. Ne jamais produire du code frontend sans les appliquer.**
+name: frontend-design
+description: Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, or applications. Generates creative, polished code that avoids generic AI aesthetics.
+license: Complete terms in LICENSE.txt
+---
 
-### Design Direction pour Ordo
-- **Tone** : Premium, minimaliste, Apple-like. Luxury/refined avec touches organic.
-- **Palette** : Indigo #2D3A8C (principal), Navy #12152B (fonds sombres), Vert #86C5A3 (accent), Crème #FAFAF8 (background), Blanc #FFFFFF (surfaces)
-- **Typography** : Outfit (display, 600-700) + DM Sans (body, 400-500). JAMAIS Arial, Inter, Roboto ou fonts génériques.
-- **Motion** : Animations CSS reveal-on-scroll (opacity + translateY). Transitions cubic-bezier(.16,1,.3,1). Hover subtils (scale 1.02, color shifts).
-- **Spatial** : Sections généreuses (120px padding). Max-width 1060px conteneur large, 880px moyen, 720px étroit. Grids asymétriques (split 1fr 1fr avec gap 60px).
+This skill guides creation of distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics. Implement real working code with exceptional attention to aesthetic details and creative choices.
 
-### Règles strictes
-1. **Jamais de design générique "AI slop"** : pas de gradients violet sur blanc, pas de cards identiques en grille, pas de hero centré basique avec bouton bleu
-2. **Typography distinctive** : Outfit + DM Sans uniquement. Tailles display clamp(2.6rem, 6.5vw, 4.6rem), body 1.05rem
-3. **Couleurs via CSS variables** : Toujours utiliser les variables :root définies dans le fichier
-4. **Mockups de dashboard** : Inclure des visuels réalistes de l'app (KPIs, listes avec badges de statut, barres de progression)
-5. **Bordures fines** : 1px solid #e8e8ed sur les cards et sections. Border-radius 14-20px sur les cards, 980px sur les boutons (pill shape)
-6. **Boutons pill** : border-radius: 980px, padding 14px 32px, transitions au hover
-7. **Animations au scroll** : Classe .r (opacity:0, translateY:28px) → .v (visible) via IntersectionObserver
-8. **Mobile-first responsive** : @media(max-width:768px) pour toutes les grids
-9. **Fond transparent sur nav** : backdrop-filter blur(20px) avec background rgba semi-transparent
-10. **Vouvoiement** : Tout le texte en français formel (vous, votre)
+The user provides frontend requirements: a component, page, application, or interface to build. They may include context about the purpose, audience, or technical constraints.
+
+## Design Thinking
+
+Before coding, understand the context and commit to a BOLD aesthetic direction:
+- **Purpose**: What problem does this interface solve? Who uses it?
+- **Tone**: Pick an extreme: brutally minimal, maximalist chaos, retro-futuristic, organic/natural, luxury/refined, playful/toy-like, editorial/magazine, brutalist/raw, art deco/geometric, soft/pastel, industrial/utilitarian, etc. There are so many flavors to choose from. Use these for inspiration but design one that is true to the aesthetic direction.
+- **Constraints**: Technical requirements (framework, performance, accessibility).
+- **Differentiation**: What makes this UNFORGETTABLE? What's the one thing someone will remember?
+
+**CRITICAL**: Choose a clear conceptual direction and execute it with precision. Bold maximalism and refined minimalism both work - the key is intentionality, not intensity.
+
+Then implement working code (HTML/CSS/JS, React, Vue, etc.) that is:
+- Production-grade and functional
+- Visually striking and memorable
+- Cohesive with a clear aesthetic point-of-view
+- Meticulously refined in every detail
+
+## Frontend Aesthetics Guidelines
+
+Focus on:
+- **Typography**: Choose fonts that are beautiful, unique, and interesting. Avoid generic fonts like Arial and Inter; opt instead for distinctive choices that elevate the frontend's aesthetics; unexpected, characterful font choices. Pair a distinctive display font with a refined body font.
+- **Color & Theme**: Commit to a cohesive aesthetic. Use CSS variables for consistency. Dominant colors with sharp accents outperform timid, evenly-distributed palettes.
+- **Motion**: Use animations for effects and micro-interactions. Prioritize CSS-only solutions for HTML. Use Motion library for React when available. Focus on high-impact moments: one well-orchestrated page load with staggered reveals (animation-delay) creates more delight than scattered micro-interactions. Use scroll-triggering and hover states that surprise.
+- **Spatial Composition**: Unexpected layouts. Asymmetry. Overlap. Diagonal flow. Grid-breaking elements. Generous negative space OR controlled density.
+- **Backgrounds & Visual Details**: Create atmosphere and depth rather than defaulting to solid colors. Add contextual effects and textures that match the overall aesthetic. Apply creative forms like gradient meshes, noise textures, geometric patterns, layered transparencies, dramatic shadows, decorative borders, custom cursors, and grain overlays.
+
+NEVER use generic AI-generated aesthetics like overused font families (Inter, Roboto, Arial, system fonts), cliched color schemes (particularly purple gradients on white backgrounds), predictable layouts and component patterns, and cookie-cutter design that lacks context-specific character.
+
+Interpret creatively and make unexpected choices that feel genuinely designed for the context. No design should be the same. Vary between light and dark themes, different fonts, different aesthetics. NEVER converge on common choices (Space Grotesk, for example) across generations.
+
+**IMPORTANT**: Match implementation complexity to the aesthetic vision. Maximalist designs need elaborate code with extensive animations and effects. Minimalist or refined designs need restraint, precision, and careful attention to spacing, typography, and subtle details. Elegance comes from executing the vision well.
+
+Remember: Claude is capable of extraordinary creative work. Don't hold back, show what can truly be created when thinking outside the box and committing fully to a distinctive vision.
